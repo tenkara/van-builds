@@ -1,7 +1,10 @@
 """Extract drawing elements (lines) from the PDF to understand dimension placement."""
 import pymupdf
+from pathlib import Path
 
-pdf_path = r"C:\Users\Raj\repos\van-builds\01-Ford-Transit-2026\03-inputs\Measurements-Ford-Transit-148-Ext.pdf"
+# Build path relative to this script's location
+script_dir = Path(__file__).parent
+pdf_path = script_dir.parent / "03-inputs" / "Measurements-Ford-Transit-148-Ext.pdf"
 
 doc = pymupdf.open(pdf_path)
 page = doc[0]

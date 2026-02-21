@@ -14,7 +14,7 @@ Output:
   04-outputs/20260220-layout-editor.html
 
 Usage:
-  python generate_layout_editor.py
+  python generate_layout_editor_v1.py
 """
 
 import os, json
@@ -694,6 +694,13 @@ function confirmImport() {
     const data = JSON.parse(document.getElementById('import-text').value);
     if(data.items) { items = data.items; }
     else if(Array.isArray(data)) { items = data; }
+    // Recompute nextId from imported items to avoid ID collisions
+    let maxId = 100;
+    items.forEach(item => {
+      const match = item.id.match(/_(\\d+)$/);
+      if(match) maxId = Math.max(maxId, parseInt(match[1]));
+    });
+    nextId = maxId + 1;
     buildSidebar();
     scheduleRender();
     closeImportModal();
@@ -707,6 +714,7 @@ function resetLayout() {
   if(!confirm('Reset to default layout?')) return;
   items = JSON.parse(JSON.stringify(%%ITEMS_JSON%%));
   selectedId = null;
+  nextId = 100;  // Reset nextId to initial value
   buildSidebar();
   scheduleRender();
 }

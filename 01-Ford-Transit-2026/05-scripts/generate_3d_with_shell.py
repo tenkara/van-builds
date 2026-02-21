@@ -375,7 +375,7 @@ def transform_mesh(mesh, alignment):
 
     Ford SAE coordinates → Layout coordinates:
         Ford X → Layout Y  (longitudinal → length axis)
-        Ford Y → Layout X  (lateral → width axis, flip sign)
+        Ford Y → Layout X  (lateral → width axis, centered)
         Ford Z → Layout Z  (vertical → height axis)
 
     Returns (new_vertices, faces) in layout coordinates (inches).
@@ -844,6 +844,12 @@ def main():
         width=1600, height=950,
     )
 
+    # Build visibility array for "Shell Only" button
+    shell_only_visibility = [
+        trace.legendgroup == "Transit Shell" if hasattr(trace, 'legendgroup') else False
+        for trace in fig.data
+    ]
+
     fig.update_layout(
         updatemenus=[dict(
             type="buttons", showactive=False,
@@ -863,8 +869,8 @@ def main():
                      args=[{"scene.camera.eye": dict(x=0, y=-2.4, z=0.5)}]),
                 dict(label="🚪 Rear", method="relayout",
                      args=[{"scene.camera.eye": dict(x=0, y=2.4, z=0.5)}]),
-                dict(label="👁 Shell Only", method="update",
-                     args=[{"visible": True}]),
+                dict(label="👁 Shell Only", method="restyle",
+                     args=["visible", shell_only_visibility]),
             ],
         )],
     )

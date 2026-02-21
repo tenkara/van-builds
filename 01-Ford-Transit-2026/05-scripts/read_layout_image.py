@@ -1,8 +1,11 @@
 """Read dimensions from the Ford Transit layout guide image using EasyOCR."""
 import easyocr
 import sys
+from pathlib import Path
 
-img_path = r"C:\Users\Raj\repos\van-builds\01-Ford-Transit-2026\03-inputs\Ford_Transit-Ext_148WB_0a3d84d9-63eb-4e17-90cb-c18d63e6e0e4.webp"
+# Build path relative to this script's location
+script_dir = Path(__file__).parent
+img_path = script_dir.parent / "03-inputs" / "Ford_Transit-Ext_148WB_0a3d84d9-63eb-4e17-90cb-c18d63e6e0e4.webp"
 
 print("Loading EasyOCR (first run downloads model ~100MB)...")
 reader = easyocr.Reader(['en'], gpu=False)

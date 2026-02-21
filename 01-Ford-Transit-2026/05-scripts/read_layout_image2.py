@@ -1,7 +1,10 @@
 """Read dimensions from the second Ford Transit layout guide image."""
 import easyocr, re
+from pathlib import Path
 
-img_path = r"C:\Users\Raj\repos\van-builds\01-Ford-Transit-2026\03-inputs\Layout_Guide_Transit_148_EX_WB.jpg"
+# Build path relative to this script's location
+script_dir = Path(__file__).parent
+img_path = script_dir.parent / "03-inputs" / "Layout_Guide_Transit_148_EX_WB.jpg"
 
 reader = easyocr.Reader(['en'], gpu=False)
 results = reader.readtext(img_path, detail=1)
