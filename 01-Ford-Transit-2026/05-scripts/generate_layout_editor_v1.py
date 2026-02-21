@@ -71,7 +71,7 @@ DEFAULT_ITEMS = [
      "x":48.2,"y":70, "z":0,  "dx":24, "dy":20, "dz":23,
      "color":"#2E86C1", "opacity":0.88},
     {"id":"sink",         "name":"Z4 – Sink",             "zone":"Zone 4 – Galley",
-     "x":72.2-22+24,"y":70,"z":29, "dx":15,"dy":13,"dz":7,
+     "x":55.2,"y":90,"z":36, "dx":15,"dy":13,"dz":7,
      "color":"#85C1E9", "opacity":0.85},
 
     # Zone 2 – Bed
@@ -96,12 +96,12 @@ DEFAULT_ITEMS = [
      "x":48.2,"y":70, "z":54, "dx":22, "dy":44, "dz":18,
      "color":"#8B6248", "opacity":0.45},
 
-    # Wheel wells (fixed – not moveable)
+    # Wheel wells (fixed – not moveable) - updated to match dimension checklist
     {"id":"ww_port",      "name":"Wheel Well – Port",     "zone":"Structure",
-     "x":0,   "y":60, "z":0,  "dx":7.7,"dy":58, "dz":13.5,
+     "x":0,   "y":68, "z":0,  "dx":8,"dy":35, "dz":11,
      "color":"#7f8c8d", "opacity":0.75, "locked":True},
     {"id":"ww_stbd",      "name":"Wheel Well – Stbd",     "zone":"Structure",
-     "x":62.5,"y":60, "z":0,  "dx":7.7,"dy":58, "dz":13.5,
+     "x":62.2,"y":68, "z":0,  "dx":8,"dy":35, "dz":11,
      "color":"#7f8c8d", "opacity":0.75, "locked":True},
 
     # Roof fans

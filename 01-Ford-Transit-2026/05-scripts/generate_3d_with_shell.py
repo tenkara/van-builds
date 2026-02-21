@@ -38,8 +38,8 @@ os.makedirs(OUT_DIR, exist_ok=True)
 
 CL = 172.2;  CW = 70.2;  CH = 81.5        # cargo interior
 
-# Wheel wells
-WW_W = 7.7;  WW_Y0 = 60.0;  WW_Y1 = 118.0;  WW_H = 13.5
+# Wheel wells - updated to match dimension-verification-checklist.md
+WW_W = 8.0;  WW_Y0 = 68.0;  WW_Y1 = 103.0;  WW_H = 11.0
 
 # Zone boundaries (Y from front partition → rear)
 Z1  = (0,   28);   Z5  = (28,  70)

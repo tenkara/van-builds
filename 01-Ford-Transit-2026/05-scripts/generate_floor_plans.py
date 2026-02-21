@@ -40,12 +40,12 @@ CH   = 81.5     # height  floor → ceiling
 # Cab stub shown above partition in plan view
 CAB_D = 32.0
 
-# Wheel wells
-WW_CLR  = 54.8                  # clear between wheel wells
-WW_W    = (CW - WW_CLR) / 2    # 7.7″ protrusion each side
-WW_Y0   = 60.0                  # starts  60″ from partition
-WW_Y1   = 118.0                 # ends   118″ from partition
-WW_H    = 13.5                  # height from floor
+# Wheel wells (updated to match dimension-verification-checklist.md)
+WW_CLR  = 52.0                  # clear between wheel wells
+WW_W    = 8.0                   # 8″ protrusion each side
+WW_Y0   = 68.0                  # starts  68″ from partition
+WW_Y1   = 103.0                 # ends   103″ from partition
+WW_H    = 11.0                  # height from floor
 
 # Zone boundaries  (Y from front partition, 0 → 172.2)
 Z1  = ( 0.0,  28.0)   # Forward-facing sofa bed
@@ -81,7 +81,7 @@ GA_L   = Z34[1] - Z34[0]      # 44″
 FR_W, FR_D = 24.0, 20.0        # fridge (front-opening 90 L)
 FR_X, FR_Y = GA_X0, GA_Y0
 SK_W, SK_D = 15.0, 13.0        # sink
-SK_X, SK_Y = GA_X0 + FR_W, GA_Y0
+SK_X, SK_Y = CW - SK_W, GA_Y0 + FR_D  # sink positioned at starboard edge, next to fridge
 CT_H = 36.0                    # counter height
 
 # ── Zone 2: Bed platform ─────────────────────────────────────────────────
@@ -103,14 +103,14 @@ TBL_W, TBL_D = 28.0, 20.0
 TBL_X = BA_W + 2
 TBL_Y = Z5[0] + 12.0
 
-# Windows (Y0, Y1 per side along port/stbd wall)
-P_WINS = [(30, 68), (72, 112), (133, 170)]
-S_WINS = [(30, 68), (72, 112), (133, 170)]
+# Windows (Y0, Y1 per side along port/stbd wall) - updated to match checklist
+P_WINS = [(8, 38), (50, 82), (96, 132)]     # Driver side (port/left) - 3 windows
+S_WINS = [(55, 85), (96, 132)]               # Passenger side (stbd/right) - 2 windows
 WIN_SILL = 36.0
 WIN_H    = 22.0
 
-# Sliding door (port, plan view)
-SL_Y0, SL_Y1 = 80, 114
+# Sliding door (passenger/stbd side, plan view) - updated to match checklist
+SL_Y0, SL_Y1 = 0, 51  # Starts at partition, 51" wide
 
 # Roof fans  (Y centre)
 FAN_Y  = [49.0, 92.0]
