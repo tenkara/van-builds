@@ -1,0 +1,19 @@
+{
+  "allow": [
+    {
+      "type": "bash",
+      "description": "Allow all bash commands for van-builds project",
+      "pattern": "*"
+    },
+    {
+      "type": "file_write",
+      "description": "Allow file creation and modification within project",
+      "path": "**/*"
+    },
+    {
+      "type": "file_read",
+      "description": "Allow reading all files in project",
+      "path": "**/*"
+    }
+  ]
+}
