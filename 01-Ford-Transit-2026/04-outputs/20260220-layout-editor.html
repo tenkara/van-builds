@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ford Transit Van Build – Layout Editor v2</title>
+<script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+<style>
+  :root{--bg0:#0d1117;--bg1:#161b22;--bg2:#1c2129;--bg3:#21262d;
+    --border:#30363d;--text:#c9d1d9;--muted:#8b949e;--accent:#58a6ff;
+    --green:#238636;--red:#f85149;--orange:#d29922;}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg0);
+       color:var(--text);display:flex;height:100vh;overflow:hidden;}
+  #sidebar{width:400px;min-width:360px;background:var(--bg1);
+           border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden;}
+  .panel-header{padding:10px 14px;background:var(--bg2);border-bottom:1px solid var(--border);}
+  .panel-header h2{font-size:13px;color:var(--accent);margin-bottom:2px;}
+  .panel-header p{font-size:10px;color:var(--muted);}
+  #tabs{display:flex;background:var(--bg2);border-bottom:1px solid var(--border);}
+  .tab{flex:1;padding:8px;text-align:center;font-size:11px;cursor:pointer;
+       border-bottom:2px solid transparent;color:var(--muted);transition:all 0.15s;}
+  .tab:hover{color:var(--text);background:var(--bg3);}
+  .tab.active{color:var(--accent);border-bottom-color:var(--accent);}
+  .tab-panel{display:none;flex:1;overflow-y:auto;padding:8px;}
+  .tab-panel.active{display:block;}
+  .tab-panel::-webkit-scrollbar{width:6px;}
+  .tab-panel::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
+  #toolbar{padding:6px 10px;background:var(--bg2);border-bottom:1px solid var(--border);
+           display:flex;gap:4px;flex-wrap:wrap;}
+  #toolbar button{padding:4px 8px;font-size:10px;border:1px solid var(--border);
+                  border-radius:4px;background:var(--bg3);color:var(--text);
+                  cursor:pointer;transition:all 0.15s;white-space:nowrap;}
+  #toolbar button:hover{background:var(--border);border-color:var(--accent);}
+  #toolbar button.primary{background:var(--green);border-color:#2ea043;color:white;}
+  #toolbar button.primary:hover{background:#2ea043;}
+  .layer-group{margin-bottom:10px;}
+  .layer-group-title{font-size:11px;font-weight:600;color:var(--accent);
+                     padding:6px 4px;border-bottom:1px solid var(--border);
+                     text-transform:uppercase;letter-spacing:0.5px;}
+  .layer-row{display:flex;align-items:center;gap:8px;padding:5px 8px;
+             border-radius:4px;cursor:pointer;font-size:11px;transition:background 0.1s;}
+  .layer-row:hover{background:var(--bg3);}
+  .layer-cb{accent-color:var(--accent);width:14px;height:14px;}
+  .layer-swatch{width:12px;height:12px;border-radius:2px;flex-shrink:0;}
+  .layer-name{flex:1;}
+  .item-card{background:var(--bg0);border:1px solid var(--border);border-radius:6px;
+             margin-bottom:6px;overflow:hidden;transition:border-color 0.15s;}
+  .item-card.selected{border-color:var(--accent);}
+  .item-card.locked{opacity:0.55;}
+  .item-header{display:flex;align-items:center;padding:7px 10px;cursor:pointer;gap:6px;}
+  .item-header:hover{background:var(--bg1);}
+  .item-swatch{width:12px;height:12px;border-radius:3px;flex-shrink:0;}
+  .item-name{font-size:11px;font-weight:500;flex:1;}
+  .item-zone{font-size:9px;color:var(--muted);}
+  .item-toggle{font-size:9px;color:#484f58;transition:transform 0.2s;}
+  .item-toggle.open{transform:rotate(90deg);}
+  .item-body{display:none;padding:8px 10px 10px;border-top:1px solid var(--bg3);}
+  .item-body.open{display:block;}
+  .prop-row{display:flex;align-items:center;gap:5px;margin-bottom:5px;}
+  .prop-label{font-size:10px;color:var(--muted);width:16px;text-align:right;flex-shrink:0;font-weight:600;}
+  .prop-slider{flex:1;accent-color:var(--accent);height:14px;}
+  .prop-value{font-size:10px;width:44px;background:var(--bg0);color:var(--text);
+              border:1px solid var(--border);border-radius:3px;padding:2px 3px;
+              text-align:center;font-family:monospace;}
+  .prop-group-label{font-size:9px;color:var(--accent);margin:6px 0 3px;
+                    text-transform:uppercase;letter-spacing:0.5px;}
+  .item-actions{display:flex;gap:4px;margin-top:6px;}
+  .item-actions button{flex:1;padding:3px;font-size:10px;border-radius:3px;
+                       border:1px solid var(--border);background:var(--bg3);
+                       color:var(--muted);cursor:pointer;}
+  .item-actions button:hover{color:var(--text);border-color:#484f58;}
+  .item-actions button.del:hover{color:var(--red);border-color:var(--red);}
+  #viewport{flex:1;position:relative;}
+  #plotly-3d{width:100%;height:100%;}
+  #view-bar{position:absolute;top:8px;right:12px;display:flex;gap:4px;z-index:10;}
+  #view-bar button{padding:4px 10px;font-size:10px;border:1px solid var(--border);
+                   border-radius:4px;background:rgba(22,27,34,0.85);color:var(--text);
+                   cursor:pointer;backdrop-filter:blur(4px);}
+  #view-bar button:hover{background:var(--accent);color:white;border-color:var(--accent);}
+  #status-bar{position:absolute;bottom:0;left:0;right:0;padding:5px 14px;
+              background:rgba(13,17,23,0.88);border-top:1px solid var(--border);
+              font-size:10px;color:var(--muted);display:flex;justify-content:space-between;gap:12px;}
+  #warnings{color:var(--orange);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);
+            z-index:100;align-items:center;justify-content:center;}
+  .modal-bg.active{display:flex;}
+  .modal{background:var(--bg1);border:1px solid var(--border);border-radius:8px;
+         padding:18px;width:420px;max-width:90vw;}
+  .modal h3{color:var(--accent);margin-bottom:10px;font-size:13px;}
+  .modal label{display:block;font-size:11px;color:var(--muted);margin:6px 0 2px;}
+  .modal input,.modal select,.modal textarea{width:100%;padding:5px 7px;font-size:11px;
+         background:var(--bg0);border:1px solid var(--border);border-radius:4px;color:var(--text);}
+  .modal-actions{display:flex;gap:8px;margin-top:14px;justify-content:flex-end;}
+  .modal-actions button{padding:5px 14px;font-size:11px;border-radius:4px;
+                        border:1px solid var(--border);background:var(--bg3);
+                        color:var(--text);cursor:pointer;}
+  .modal-actions button.primary{background:var(--green);border-color:#2ea043;color:white;}
+</style>
+</head>
+
+<body>
+<div id="sidebar">
+  <div class="panel-header">
+    <h2>🚐 Ford Transit Layout Editor v2</h2>
+    <p>148" ELWB High Roof · All dims in inches · Structural from Ford specs</p>
+  </div>
+  <div id="tabs">
+    <div class="tab active" onclick="switchTab('layout')">🛋️ Layout</div>
+    <div class="tab" onclick="switchTab('structure')">🏗️ Structure</div>
+    <div class="tab" onclick="switchTab('info')">📐 Info</div>
+  </div>
+  <div id="toolbar">
+    <button class="primary" onclick="addItem()">＋ Add</button>
+    <button onclick="addPreset('overhead_cab')">＋ Cabinet</button>
+    <button onclick="addPreset('shelf')">＋ Shelf</button>
+    <button onclick="addPreset('drawer')">＋ Drawer</button>
+    <button onclick="addPreset('ltrack')">＋ L-Track</button>
+    <button onclick="exportJSON()">💾 Save</button>
+    <button onclick="importJSON()">📂 Load</button>
+    <button onclick="resetLayout()">↺ Reset</button>
+  </div>
+  <div class="tab-panel active" id="tab-layout"></div>
+  <div class="tab-panel" id="tab-structure"></div>
+  <div class="tab-panel" id="tab-info">
+    <div style="padding:8px;font-size:11px;line-height:1.7;color:var(--muted);">
+      <h3 style="color:var(--accent);font-size:13px;margin-bottom:8px;">Ford Transit 148" ELWB High Roof</h3>
+      <table style="width:100%;border-collapse:collapse;font-size:10px;">
+        <tr><td style="padding:3px 6px;color:var(--text);">Cargo Length (Ford spec)</td><td><b>172.2"</b> (partition → bumper)</td></tr>
+        <tr><td style="padding:3px 6px;color:var(--text);">Usable Floor Length</td><td><b>145"</b> (partition → rear door)</td></tr>
+        <tr><td style="padding:3px 6px;color:var(--text);">Cargo Width (floor)</td><td><b>68"</b> (beltline: 70.2")</td></tr>
+        <tr><td style="padding:3px 6px;color:var(--text);">Width Between Wheel Wells</td><td><b>52"</b> (SRW) / 44" (DRW)</td></tr>
+        <tr><td style="padding:3px 6px;color:var(--text);">Cargo Height (High Roof)</td><td><b>79"</b> (6'7")</td></tr>
+        <tr><td style="padding:3px 6px;color:var(--text);">Sliding Door Opening</td><td><b>51"W × 67"H</b> (stbd)</td></tr>
+        <tr><td style="padding:3px 6px;color:var(--text);">Rear Door Opening</td><td><b>62"W × 65"H</b> (60/40)</td></tr>
+        <tr><td style="padding:3px 6px;color:var(--text);">Wheel Well Protrusion</td><td><b>8"</b> each side (SRW)</td></tr>
+        <tr><td style="padding:3px 6px;color:var(--text);">Wheel Well Height</td><td><b>11"</b></td></tr>
+        <tr><td style="padding:3px 6px;color:var(--text);">Wheel Well Length</td><td><b>35"</b></td></tr>
+        <tr><td style="padding:3px 6px;color:var(--text);">Wheel Well Zone</td><td><b>68–103"</b> from partition</td></tr>
+        <tr><td style="padding:3px 6px;color:var(--text);">Behind Wheel Wells → Rear</td><td><b>42"</b> available space</td></tr>
+        <tr><td style="padding:3px 6px;color:var(--text);">Fuel Tank (under floor)</td><td>Driver side, ~10-46" from front</td></tr>
+        <tr><td style="padding:3px 6px;color:var(--text);">Roof Rib Spacing</td><td>~22" apart (8 ribs)</td></tr>
+        <tr><td style="padding:3px 6px;color:var(--text);">Structural Pillars</td><td>B (0"), C (52"), D (120")</td></tr>
+      </table>
+      <h3 style="color:var(--accent);font-size:13px;margin:14px 0 6px;">Keyboard Shortcuts</h3>
+      <div><b>1–6</b>: View presets (3/4, Top, Driver, Pass, Rear, Front)</div>
+      <div><b>G</b>: Toggle grid snap (1")</div>
+      <div><b>Delete</b>: Delete selected item</div>
+      <div><b>D</b>: Duplicate selected item</div>
+      <div><b>Esc</b>: Deselect</div>
+      <h3 style="color:var(--accent);font-size:13px;margin:14px 0 6px;">Design Tips</h3>
+      <div>• ⛽ Fuel tank shown below Z=0 — check clearance for underfloor plumbing</div>
+      <div>• 🔶 Wheel well arches show true dome — test furniture fit at curves</div>
+      <div>• 🚪 Sliding door zone (passenger side, Y=0–51") keep clear for entry</div>
+      <div>• Roof ribs spaced ~22" — mount overhead cabinets to ribs for strength</div>
+      <div>• Toggle layers in Structure tab to reduce visual clutter</div>
+      <div>• Floor tie-down points (📌) show L-track / anchor bolt locations</div>
+    </div>
+  </div>
+</div>
+
+<div id="viewport">
+  <div id="view-bar">
+    <button onclick="setView('3q')">3/4</button>
+    <button onclick="setView('top')">Top</button>
+    <button onclick="setView('driver')">Driver</button>
+    <button onclick="setView('pass')">Pass.</button>
+    <button onclick="setView('rear')">Rear</button>
+    <button onclick="setView('front')">Front</button>
+    <button id="snap-btn" onclick="toggleSnap()" style="opacity:0.5;">⊞ Snap</button>
+  </div>
+  <div id="plotly-3d"></div>
+  <div id="status-bar">
+    <span id="warnings"></span>
+    <span id="status-text">Ready</span>
+    <span id="status-dims"></span>
+  </div>
+</div>
+
+<div class="modal-bg" id="add-modal">
+  <div class="modal">
+    <h3>Add New Item</h3>
+    <label>Name</label><input id="new-name" value="Custom Cabinet"/>
+    <label>Zone / Group</label>
+    <select id="new-zone">
+      <option>Zone 1 – Sofa Bed</option><option>Zone 2 – Bed</option>
+      <option>Zone 3 – Wet Bath</option><option>Zone 4 – Galley</option>
+      <option>Zone 5 – Aisle</option><option selected>Overhead Storage</option>
+      <option>Custom</option>
+    </select>
+    <div style="display:flex;gap:6px;">
+      <div style="flex:1"><label>Width</label><input id="new-dx" type="number" value="24"/></div>
+      <div style="flex:1"><label>Depth</label><input id="new-dy" type="number" value="18"/></div>
+      <div style="flex:1"><label>Height</label><input id="new-dz" type="number" value="14"/></div>
+    </div>
+    <label>Color</label><input id="new-color" type="color" value="#6B8FA3"/>
+    <div class="modal-actions">
+      <button onclick="closeModal('add-modal')">Cancel</button>
+      <button class="primary" onclick="confirmAdd()">Add to Layout</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-bg" id="import-modal">
+  <div class="modal">
+    <h3>Import Layout JSON</h3>
+    <label>Paste JSON or select file</label>
+    <textarea id="import-text" rows="8" style="font-family:monospace;font-size:10px;resize:vertical;"></textarea>
+    <input type="file" id="import-file" accept=".json" style="margin-top:6px;font-size:10px;"
+           onchange="loadFile(event)"/>
+    <div class="modal-actions">
+      <button onclick="closeModal('import-modal')">Cancel</button>
+      <button class="primary" onclick="confirmImport()">Import</button>
+    </div>
+  </div>
+</div>
+<script>
+const DEFAULT_ITEMS_JSON = [{"id": "sofa_base", "name": "Z1 \u2013 Sofa Base", "zone": "Zone 1 \u2013 Sofa Bed", "x": 11.1, "y": 0, "z": 0, "dx": 48, "dy": 24, "dz": 16, "color": "#7D5A14", "opacity": 0.9}, {"id": "sofa_cushion", "name": "Z1 \u2013 Seat Cushion", "zone": "Zone 1 \u2013 Sofa Bed", "x": 12.6, "y": 1.5, "z": 16, "dx": 45, "dy": 14.4, "dz": 4, "color": "#C9A84C", "opacity": 0.95}, {"id": "sofa_back", "name": "Z1 \u2013 Backrest", "zone": "Zone 1 \u2013 Sofa Bed", "x": 12.1, "y": 19, "z": 16, "dx": 46, "dy": 5, "dz": 18, "color": "#A07840", "opacity": 0.95}, {"id": "lagun_table", "name": "Z5 \u2013 Lagun Table", "zone": "Zone 5 \u2013 Aisle", "x": 28, "y": 40, "z": 34, "dx": 28, "dy": 20, "dz": 1.5, "color": "#8E44AD", "opacity": 0.85}, {"id": "table_ped", "name": "Z5 \u2013 Table Pedestal", "zone": "Zone 5 \u2013 Aisle", "x": 40, "y": 48, "z": 0, "dx": 4, "dy": 4, "dz": 34, "color": "#6C3483", "opacity": 0.8}, {"id": "bath_cab", "name": "Z3 \u2013 Bath Cabinet", "zone": "Zone 3 \u2013 Wet Bath", "x": 0, "y": 70, "z": 0, "dx": 26, "dy": 44, "dz": 36, "color": "#1A5276", "opacity": 0.65}, {"id": "bath_counter", "name": "Z3 \u2013 Counter", "zone": "Zone 3 \u2013 Wet Bath", "x": 0, "y": 70, "z": 36, "dx": 26, "dy": 44, "dz": 2, "color": "#BDC3C7", "opacity": 0.9}, {"id": "toilet", "name": "Z3 \u2013 Toilet", "zone": "Zone 3 \u2013 Wet Bath", "x": 5, "y": 96, "z": 38, "dx": 16, "dy": 16, "dz": 14, "color": "#D5D8DC", "opacity": 0.9}, {"id": "galley_cab", "name": "Z4 \u2013 Galley Cabinet", "zone": "Zone 4 \u2013 Galley", "x": 48.2, "y": 70, "z": 0, "dx": 22, "dy": 44, "dz": 36, "color": "#6D3A0E", "opacity": 0.65}, {"id": "galley_ctr", "name": "Z4 \u2013 Counter", "zone": "Zone 4 \u2013 Galley", "x": 48.2, "y": 70, "z": 36, "dx": 22, "dy": 44, "dz": 2, "color": "#BDC3C7", "opacity": 0.9}, {"id": "fridge", "name": "Z4 \u2013 Fridge 90 L", "zone": "Zone 4 \u2013 Galley", "x": 48.2, "y": 70, "z": 0, "dx": 24, "dy": 20, "dz": 23, "color": "#2E86C1", "opacity": 0.88}, {"id": "sink", "name": "Z4 \u2013 Sink", "zone": "Zone 4 \u2013 Galley", "x": 50.2, "y": 91, "z": 29, "dx": 15, "dy": 13, "dz": 7, "color": "#85C1E9", "opacity": 0.85}, {"id": "bed_plat", "name": "Z2 \u2013 Bed Platform", "zone": "Zone 2 \u2013 Bed", "x": 1, "y": 130, "z": 0, "dx": 68.2, "dy": 42.2, "dz": 28, "color": "#1E6B3A", "opacity": 0.6}, {"id": "mattress", "name": "Z2 \u2013 Mattress", "zone": "Zone 2 \u2013 Bed", "x": 5.1, "y": 131.1, "z": 28, "dx": 60, "dy": 40, "dz": 10, "color": "#A9DFBF", "opacity": 0.92}, {"id": "water_tank", "name": "Z2 \u2013 Water Tank 25 gal", "zone": "Zone 2 \u2013 Bed", "x": 2, "y": 131, "z": 1, "dx": 26, "dy": 20, "dz": 26, "color": "#3498DB", "opacity": 0.3}, {"id": "ecoflow", "name": "Z2 \u2013 EcoFlow 10 kWh", "zone": "Zone 2 \u2013 Bed", "x": 42.2, "y": 131, "z": 1, "dx": 26, "dy": 20, "dz": 26, "color": "#F39C12", "opacity": 0.3}, {"id": "upper_bath", "name": "Z3 \u2013 Upper Bath Cabinet", "zone": "Overhead Storage", "x": 0, "y": 70, "z": 54, "dx": 26, "dy": 44, "dz": 14, "color": "#2E86C1", "opacity": 0.35}, {"id": "upper_galley", "name": "Z4 \u2013 Upper Galley Cab", "zone": "Overhead Storage", "x": 48.2, "y": 70, "z": 54, "dx": 22, "dy": 44, "dz": 18, "color": "#8B6248", "opacity": 0.45}, {"id": "fan1", "name": "Roof Fan 1", "zone": "Ventilation", "x": 28.1, "y": 42, "z": 78.5, "dx": 14, "dy": 14, "dz": 3, "color": "#E59866", "opacity": 0.85}, {"id": "fan2", "name": "Roof Fan 2", "zone": "Ventilation", "x": 28.1, "y": 85, "z": 78.5, "dx": 14, "dy": 14, "dz": 3, "color": "#E59866", "opacity": 0.85}];
+
+// ═══════════════════════════════════════════════════════════════════
+//  CONSTANTS & STATE
+// ═══════════════════════════════════════════════════════════════════
+const CL=172.2, CW=68, CH=79;
+// Upfit Supply PDF – Ford Transit 148" EXT WB (SRW):
+// Floor=145", WW=35" long, partition→WW rear=103", behind WW=42"
+// WW front = 103−35 = 68", WW rear = 103"
+const WW_PROT=8, WW_H=11, WW_Y0=68, WW_Y1=103;
+
+let items = JSON.parse(JSON.stringify(DEFAULT_ITEMS_JSON));
+const BACKUP = JSON.parse(JSON.stringify(DEFAULT_ITEMS_JSON));
+let nextId=200, selectedId=null, updateTimer=null;
+let snapOn=false; const SNAP=1.0;
+
+const layers={
+  floor:      {on:true,  name:'Floor',                color:'#b8a88a'},
+  walls:      {on:true,  name:'Walls & Partition',    color:'#667788'},
+  roof:       {on:true,  name:'Roof (superellipse)',  color:'#8899aa'},
+  wheelWells: {on:true,  name:'Wheel Wells (dome)',   color:'#F39C12'},
+  windows:    {on:true,  name:'Windows + Frames',     color:'#5DADE2'},
+  slidingDoor:{on:true,  name:'Sliding Door Opening', color:'#2ECC71'},
+  rearDoors:  {on:true,  name:'Rear Door Opening',    color:'#E74C3C'},
+  fuelTank:   {on:true,  name:'Fuel Tank (underfloor)',color:'#E67E22'},
+  defTank:    {on:false, name:'DEF Tank (diesel)',    color:'#9B59B6'},
+  floorRibs:  {on:true,  name:'Floor Ribs',           color:'#95A5A6'},
+  pillars:    {on:true,  name:'Structural Pillars',   color:'#566573'},
+  roofRibs:   {on:true,  name:'Roof Cross-Members',  color:'#7F8C8D'},
+  tieDowns:   {on:true,  name:'Tie-Down Points',     color:'#F1C40F'},
+  dims:       {on:true,  name:'Dimensions & Labels',  color:'#aaaaaa'},
+};
+
+// ═══════════════════════════════════════════════════════════════════
+//  GEOMETRY HELPERS
+// ═══════════════════════════════════════════════════════════════════
+
+function mkBox(x,y,z,dx,dy,dz){
+  return{
+    x:[x,x+dx,x+dx,x,x,x+dx,x+dx,x],
+    y:[y,y,y+dy,y+dy,y,y,y+dy,y+dy],
+    z:[z,z,z,z,z+dz,z+dz,z+dz,z+dz],
+    i:[0,0,4,4,0,0,1,1,0,0,2,2],
+    j:[1,2,5,6,1,4,2,5,3,4,3,6],
+    k:[2,3,6,7,4,5,5,6,4,7,6,7]
+  };
+}
+
+// Wheel-well: generates point cloud for alphahull convex hull
+// Cross-section = wall face + quarter-ellipse arch + floor — convex shape
+function mkWheelWell(side){
+  const nA=20, nY=14;
+  const xs=[],ys=[],zs=[];
+  const wx=side==='port'?0:CW, dir=side==='port'?1:-1;
+  for(let yi=0;yi<=nY;yi++){
+    const yy=WW_Y0+(WW_Y1-WW_Y0)*yi/nY;
+    // Wall face: floor to top
+    for(let zi=0;zi<=4;zi++){
+      xs.push(wx); ys.push(yy); zs.push(WW_H*zi/4);
+    }
+    // Quarter-ellipse arch from (wall, WW_H) curving to (inner, 0)
+    for(let ai=1;ai<=nA;ai++){
+      const a=(Math.PI/2)*ai/nA;
+      xs.push(wx+dir*WW_PROT*Math.sin(a));
+      ys.push(yy);
+      zs.push(WW_H*Math.cos(a));
+    }
+    // Inner floor edge
+    xs.push(wx+dir*WW_PROT); ys.push(yy); zs.push(0);
+  }
+  return{x:xs,y:ys,z:zs}; // no i,j,k — use alphahull:0
+}
+
+// Wheel-well arch outline for one end (front or back)
+function wwArchOutline(side, yy){
+  const nA=24;
+  const wx=side==='port'?0:CW, dir=side==='port'?1:-1;
+  const ox=[wx],oy=[yy],oz=[0];
+  // wall up
+  ox.push(wx); oy.push(yy); oz.push(WW_H);
+  // arch
+  for(let ai=0;ai<=nA;ai++){
+    const a=(Math.PI/2)*ai/nA;
+    ox.push(wx+dir*WW_PROT*Math.sin(a));
+    oy.push(yy);
+    oz.push(WW_H*Math.cos(a));
+  }
+  // floor
+  ox.push(wx+dir*WW_PROT); oy.push(yy); oz.push(0);
+  ox.push(wx); oy.push(yy); oz.push(0);
+  return{x:ox,y:oy,z:oz};
+}
+
+// Superellipse roof
+function mkRoof(){
+  const nL=40,nP=48,halfW=CW/2+3,wallH=58,peakH=CH+6,archH=peakH-wallH,n=3.5;
+  const xs=[],ys=[],zs=[],ii=[],jj=[],kk=[];
+  for(let yi=0;yi<nL;yi++){
+    const yy=-4+(CL+8)*yi/(nL-1);
+    for(let pi=0;pi<nP;pi++){
+      const t=Math.PI-Math.PI*pi/(nP-1);
+      const ct=Math.cos(t),st=Math.sin(t);
+      xs.push(CW/2+halfW*Math.sign(ct)*Math.pow(Math.abs(ct),2/n));
+      ys.push(yy);
+      zs.push(wallH+archH*Math.pow(Math.abs(st),2/n));
+    }
+  }
+  for(let yi=0;yi<nL-1;yi++){
+    for(let pi=0;pi<nP-1;pi++){
+      const v=yi*nP+pi,w=(yi+1)*nP+pi;
+      ii.push(v,v+1);jj.push(w,w);kk.push(v+1,w+1);
+    }
+  }
+  return{x:xs,y:ys,z:zs,i:ii,j:jj,k:kk};
+}
+
+// ═══════════════════════════════════════════════════════════════════
+//  STRUCTURAL TRACES
+// ═══════════════════════════════════════════════════════════════════
+
+function buildStructural(){
+  const T=[];
+  const m3d=(d,c,o,nm,lg,sl=false)=>({
+    type:'mesh3d',x:d.x,y:d.y,z:d.z,i:d.i,j:d.j,k:d.k,
+    color:c,opacity:o,name:nm,legendgroup:lg,showlegend:sl,hoverinfo:'name',
+    flatshading:true,lighting:{ambient:0.6,diffuse:0.5,specular:0.15,roughness:0.7}});
+
+  // ── Floor ──
+  if(layers.floor.on){
+    T.push(m3d(mkBox(-3,-4,-2.5,CW+6,CL+8,2.5),'#b8a88a',0.30,'Floor','Floor',true));
+  }
+
+  // ── Walls ──
+  if(layers.walls.on){
+    T.push(m3d(mkBox(-3,-4,0,3,CL+8,CH),'#667788',0.05,'Wall – Stbd (Passenger)','Walls',true));
+    T.push(m3d(mkBox(CW,-4,0,3,CL+8,CH),'#667788',0.05,'Wall – Port (Driver)','Walls'));
+    T.push(m3d(mkBox(-3,CL,65,CW+6,3,CH-65),'#667788',0.05,'Rear Wall (above doors)','Walls'));
+    T.push(m3d(mkBox(-3,-4,0,CW+6,3,CH),'#667788',0.08,'Partition (cab)','Walls'));
+  }
+
+  // ── Roof ──
+  if(layers.roof.on){
+    T.push({...m3d(mkRoof(),'#8899aa',0.07,'Roof','Roof',true),
+      lighting:{ambient:0.7,diffuse:0.5,specular:0.1,roughness:0.8}});
+  }
+
+  // ── Wheel Wells ──
+  if(layers.wheelWells.on){
+    // Solid convex-hull meshes (alphahull:0 auto-triangulates)
+    for(const [side,nm,sl] of [['port','Wheel Well – Passenger',true],['stbd','Wheel Well – Driver',false]]){
+      const ww=mkWheelWell(side);
+      T.push({type:'mesh3d',x:ww.x,y:ww.y,z:ww.z,alphahull:0,
+        color:'#F39C12',opacity:0.50,name:nm,legendgroup:'Wheel Wells',showlegend:sl,
+        hoverinfo:'name',flatshading:true,
+        lighting:{ambient:0.65,diffuse:0.55,specular:0.15,roughness:0.6}});
+    }
+    // Arch profile outlines at front & back of each well
+    for(const side of ['port','stbd']){
+      for(const yy of [WW_Y0, WW_Y1]){
+        const ol=wwArchOutline(side,yy);
+        T.push({type:'scatter3d',x:ol.x,y:ol.y,z:ol.z,mode:'lines',
+          line:{color:'#D68910',width:3},showlegend:false,hoverinfo:'skip',
+          legendgroup:'Wheel Wells'});
+      }
+      // Top ridge line along length
+      const wx=side==='port'?0:CW;
+      T.push({type:'scatter3d',x:[wx,wx],y:[WW_Y0,WW_Y1],z:[WW_H,WW_H],
+        mode:'lines',line:{color:'#D68910',width:2},showlegend:false,
+        hoverinfo:'skip',legendgroup:'Wheel Wells'});
+      // Inner floor edge line
+      const ix=side==='port'?WW_PROT:CW-WW_PROT;
+      T.push({type:'scatter3d',x:[ix,ix],y:[WW_Y0,WW_Y1],z:[0.2,0.2],
+        mode:'lines',line:{color:'#D68910',width:2},showlegend:false,
+        hoverinfo:'skip',legendgroup:'Wheel Wells'});
+    }
+    // Wheel-well zone dashes on floor
+    T.push({type:'scatter3d',
+      x:[0,CW,null,0,CW],y:[WW_Y0,WW_Y0,null,WW_Y1,WW_Y1],z:[0.3,0.3,null,0.3,0.3],
+      mode:'lines',line:{color:'#F39C12',width:1.5,dash:'dash'},
+      showlegend:false,hoverinfo:'skip',legendgroup:'Wheel Wells'});
+    // Labels
+    T.push({type:'scatter3d',x:[WW_PROT/2],y:[(WW_Y0+WW_Y1)/2],z:[WW_H+3],mode:'text',
+      text:['Passenger WW'],textfont:{size:8,color:'#F39C12'},
+      showlegend:false,hoverinfo:'skip'});
+    T.push({type:'scatter3d',x:[CW-WW_PROT/2],y:[(WW_Y0+WW_Y1)/2],z:[WW_H+3],mode:'text',
+      text:['Driver WW'],textfont:{size:8,color:'#F39C12'},
+      showlegend:false,hoverinfo:'skip'});
+  }
+
+  // ── Windows ──
+  if(layers.windows.on){
+    const sill=36,wH=22;
+    // Driver (port) – 3 windows – now on x=CW side
+    const dW=[[8,38],[50,82],[96,132]];
+    for(const [y0,y1] of dW){
+      T.push(m3d(mkBox(CW+0.5,y0,sill,1.5,y1-y0,wH),'#5DADE2',0.22,
+        'Window–Driver','Windows',dW.indexOf(dW.find(w=>w[0]===y0))===0));
+      const fx=CW+2,fw=0.5;
+      T.push(m3d(mkBox(fx,y0-1,sill-1,fw,y1-y0+2,1),'#444',0.55,'Frame','Windows'));
+      T.push(m3d(mkBox(fx,y0-1,sill+wH,fw,y1-y0+2,1),'#444',0.55,'Frame','Windows'));
+      T.push(m3d(mkBox(fx,y0-1,sill,fw,1,wH),'#444',0.55,'Frame','Windows'));
+      T.push(m3d(mkBox(fx,y1,sill,fw,1,wH),'#444',0.55,'Frame','Windows'));
+    }
+    // Passenger (stbd) – 2 windows (sliding door takes one slot) – now on x=0 side
+    const pW=[[55,85],[96,132]];
+    for(const [y0,y1] of pW){
+      T.push(m3d(mkBox(-2,y0,sill,1.5,y1-y0,wH),'#5DADE2',0.22,'Window–Passenger','Windows'));
+      const fx=-2.5,fw=0.5;
+      T.push(m3d(mkBox(fx,y0-1,sill-1,fw,y1-y0+2,1),'#444',0.55,'Frame','Windows'));
+      T.push(m3d(mkBox(fx,y0-1,sill+wH,fw,y1-y0+2,1),'#444',0.55,'Frame','Windows'));
+      T.push(m3d(mkBox(fx,y0-1,sill,fw,1,wH),'#444',0.55,'Frame','Windows'));
+      T.push(m3d(mkBox(fx,y1,sill,fw,1,wH),'#444',0.55,'Frame','Windows'));
+    }
+    // Sliding door window – now on x=0 (passenger) side
+    T.push(m3d(mkBox(-2,10,40,1.5,30,18),'#5DADE2',0.18,'Sliding Door Window','Windows'));
+    // Rear door glass (symmetric)
+    T.push(m3d(mkBox(5,CL+0.5,46,27,2,18),'#5DADE2',0.20,'Rear Glass L','Windows'));
+    T.push(m3d(mkBox(37,CL+0.5,46,27,2,18),'#5DADE2',0.20,'Rear Glass R','Windows'));
+  }
+
+  // ── Sliding Door Opening ──
+  if(layers.slidingDoor.on){
+    const dy=51,dh=67;
+    T.push(m3d(mkBox(-1,0,-1,2,dy,1.5),'#2ECC71',0.45,'Sliding Door Threshold','Sliding Door',true));
+    T.push(m3d(mkBox(-3.5,0,-3,4,dy,3),'#27AE60',0.25,'Door Step','Sliding Door'));
+    // Frame outline
+    const e={x:[],y:[],z:[]};
+    for(const [a,b] of [[[0,0,0],[0,0,dh]],[[0,0,dh],[0,dy,dh]],
+                         [[0,dy,dh],[0,dy,0]],[[0,dy,0],[0,0,0]]]){
+      e.x.push(a[0],b[0],null);e.y.push(a[1],b[1],null);e.z.push(a[2],b[2],null);
+    }
+    T.push({type:'scatter3d',x:e.x,y:e.y,z:e.z,mode:'lines',
+      line:{color:'#2ECC71',width:4,dash:'dash'},
+      name:'Sliding Door Frame',legendgroup:'Sliding Door',showlegend:false,hoverinfo:'name'});
+    T.push({type:'scatter3d',x:[-5],y:[dy/2],z:[dh+3],mode:'text',
+      text:['SLIDING DOOR (51"W × 67"H) ►'],textfont:{size:9,color:'#2ECC71'},
+      showlegend:false,hoverinfo:'skip'});
+  }
+
+  // ── Rear Cargo Doors ──
+  if(layers.rearDoors.on){
+    const rdW=62,rdH=65,rdX=(CW-rdW)/2;
+    T.push(m3d(mkBox(rdX,CL-1,-1,rdW,3,1.5),'#E74C3C',0.50,'Rear Door Sill','Rear Doors',true));
+    const e={x:[],y:[],z:[]};
+    for(const [a,b] of [[[rdX,CL,0],[rdX,CL,rdH]],[[rdX,CL,rdH],[rdX+rdW,CL,rdH]],
+                         [[rdX+rdW,CL,rdH],[rdX+rdW,CL,0]],[[rdX,CL,0],[rdX+rdW,CL,0]]]){
+      e.x.push(a[0],b[0],null);e.y.push(a[1],b[1],null);e.z.push(a[2],b[2],null);
+    }
+    T.push({type:'scatter3d',x:e.x,y:e.y,z:e.z,mode:'lines',
+      line:{color:'#E74C3C',width:4},
+      name:'Rear Door Frame',legendgroup:'Rear Doors',showlegend:false,hoverinfo:'name'});
+    // 60/40 split
+    const sx=rdX+rdW*0.4;
+    T.push({type:'scatter3d',x:[sx,sx],y:[CL+0.5,CL+0.5],z:[0,rdH],mode:'lines',
+      line:{color:'#C0392B',width:2,dash:'dot'},showlegend:false,hoverinfo:'skip'});
+    T.push({type:'scatter3d',x:[CW/2],y:[CL+6],z:[rdH+4],mode:'text',
+      text:['REAR DOORS (60/40) 62"W × 65"H'],textfont:{size:9,color:'#E74C3C'},
+      showlegend:false,hoverinfo:'skip'});
+  }
+
+  // ── Fuel Tank ──
+  if(layers.fuelTank.on){
+    // Driver side (x=CW), under floor, near front (~10-46" from partition)
+    T.push(m3d(mkBox(CW-22,10,-11,20,36,9),'#E67E22',0.50,'Fuel Tank (25 gal)','Underfloor',true));
+    T.push(m3d(mkBox(CW,28,-5,2,4,5),'#D35400',0.60,'Fuel Filler Neck','Underfloor'));
+    T.push({type:'scatter3d',x:[CW-12],y:[28],z:[-14],mode:'text',
+      text:['⛽ FUEL TANK'],textfont:{size:8,color:'#E67E22'},showlegend:false,hoverinfo:'skip'});
+    // Outline on floor (projection)
+    T.push({type:'scatter3d',
+      x:[CW-22,CW-2,CW-2,CW-22,CW-22],y:[10,10,46,46,10],z:[0.3,0.3,0.3,0.3,0.3],
+      mode:'lines',line:{color:'#E67E22',width:1.5,dash:'dot'},
+      showlegend:false,hoverinfo:'name',name:'Fuel tank projection'});
+  }
+
+  // ── DEF Tank ──
+  if(layers.defTank.on){
+    T.push(m3d(mkBox(CW-16,50,-9,12,18,7),'#9B59B6',0.50,'DEF Tank','Underfloor'));
+    T.push({type:'scatter3d',x:[CW-10],y:[59],z:[-12],mode:'text',
+      text:['DEF'],textfont:{size:8,color:'#9B59B6'},showlegend:false,hoverinfo:'skip'});
+  }
+
+  // ── Floor Ribs ──
+  if(layers.floorRibs.on){
+    // Lateral ribs (side-to-side)
+    for(let y=6.5;y<CL;y+=6.5){
+      T.push({type:'scatter3d',x:[1,CW-1,null],y:[y,y,null],z:[-0.8,-0.8,null],
+        mode:'lines',line:{color:'#95A5A6',width:1},showlegend:false,hoverinfo:'skip',
+        legendgroup:'Floor Ribs'});
+    }
+    // Longitudinal ribs
+    for(const x of [15,35,55]){
+      T.push({type:'scatter3d',x:[x,x,null],y:[0,CL,null],z:[-0.5,-0.5,null],
+        mode:'lines',line:{color:'#95A5A6',width:0.8},showlegend:false,hoverinfo:'skip',
+        legendgroup:'Floor Ribs'});
+    }
+  }
+
+  // ── Structural Pillars ──
+  if(layers.pillars.on){
+    const pw=3,pd=1.5;
+    const defs=[
+      ['B-Pillar Stbd',-1,-2,true],['B-Pillar Port',CW-0.5,-2,false],
+      ['C-Pillar Stbd',-1,52,false],['C-Pillar Port',CW-0.5,52,false],
+      ['D-Pillar Stbd',-1,120,false],['D-Pillar Port',CW-0.5,120,false]
+    ];
+    for(const [nm,x,y,sl] of defs){
+      T.push(m3d(mkBox(x,y,0,pd,pw,CH),'#566573',0.35,nm,'Pillars',sl));
+    }
+  }
+
+  // ── Roof Cross-Members ──
+  if(layers.roofRibs.on){
+    const yp=[10,32,54,76,98,120,142,164];
+    for(const y of yp){
+      T.push(m3d(mkBox(2,y-0.75,CH-1,CW-4,1.5,1),'#7F8C8D',0.35,
+        'Roof Rib @'+y+'"','Roof Ribs',y===10));
+    }
+  }
+
+  // ── Tie-Down Points ──
+  if(layers.tieDowns.on){
+    const pts=[[5,20],[5,80],[5,140],[CW-5,20],[CW-5,80],[CW-5,140],[CW/2,20],[CW/2,CL-20]];
+    for(let i=0;i<pts.length;i++){
+      const [px,py]=pts[i];
+      T.push(m3d(mkBox(px-1.5,py-1.5,-0.2,3,3,0.5),'#F1C40F',0.65,
+        'Tie-Down @'+px.toFixed(0)+','+py.toFixed(0),'Tie-Downs',i===0));
+      T.push({type:'scatter3d',x:[px],y:[py],z:[0.6],mode:'markers',
+        marker:{size:3,color:'#F1C40F',symbol:'diamond'},
+        showlegend:false,hoverinfo:'name',name:'📌 Tie-Down'});
+    }
+  }
+
+  // ── Dimensions & Labels ──
+  if(layers.dims.on){
+    T.push({type:'scatter3d',x:[CW/2,CW/2],y:[-6,-22],z:[0,0],
+      mode:'lines+text',text:['','◄── FRONT (CAB)'],textposition:'bottom center',
+      textfont:{size:10,color:'#E74C3C',family:'Arial Black'},
+      line:{color:'#E74C3C',width:3},showlegend:false,hoverinfo:'skip'});
+    T.push({type:'scatter3d',x:[-10],y:[CL/2],z:[CH/2],mode:'text',
+      text:['PASSENGER\n(STBD)'],textfont:{size:9,color:'#58a6ff'},showlegend:false,hoverinfo:'skip'});
+    T.push({type:'scatter3d',x:[CW+10],y:[CL/2],z:[CH/2],mode:'text',
+      text:['DRIVER\n(PORT)'],textfont:{size:9,color:'#58a6ff'},showlegend:false,hoverinfo:'skip'});
+    const dimLines=[
+      [0,-12,0,CW,-12,0,'◄─ 68" ─►'],
+      [-14,0,0,-14,CL,0,'172.2" (145" usable)'],
+      [CW+12,0,0,CW+12,0,CH,'79"'],
+      [0,-8,0,WW_PROT,-8,0,'8"'],
+      [WW_PROT,-8,0,CW-WW_PROT,-8,0,'◄─ 52" ─►'],
+    ];
+    for(const [x0,y0,z0,x1,y1,z1,txt] of dimLines){
+      T.push({type:'scatter3d',x:[x0,x1],y:[y0,y1],z:[z0,z1],mode:'lines',
+        line:{color:'#888',width:1.5,dash:'dot'},showlegend:false,hoverinfo:'skip'});
+      T.push({type:'scatter3d',x:[(x0+x1)/2],y:[(y0+y1)/2],z:[(z0+z1)/2+2],mode:'text',
+        text:[txt],textfont:{size:8,color:'#999'},showlegend:false,hoverinfo:'skip'});
+    }
+  }
+
+  return T;
+}
+
+// ═══════════════════════════════════════════════════════════════════
+//  ITEM TRACES
+// ═══════════════════════════════════════════════════════════════════
+
+function itemTraces(){
+  const T=[];
+  for(const it of items){
+    const b=mkBox(it.x,it.y,it.z,it.dx,it.dy,it.dz);
+    const sel=(it.id===selectedId);
+    T.push({type:'mesh3d',x:b.x,y:b.y,z:b.z,i:b.i,j:b.j,k:b.k,
+      color:sel?'#58a6ff':it.color,
+      opacity:sel?Math.min(it.opacity+0.15,1):it.opacity,
+      name:it.name,legendgroup:it.zone||it.name,showlegend:true,
+      hovertext:it.name+'\n'+it.dx.toFixed(1)+'W × '+it.dy.toFixed(1)+'D × '+it.dz.toFixed(1)+'H'+
+        '\nPos: ('+it.x.toFixed(1)+', '+it.y.toFixed(1)+', '+it.z.toFixed(1)+')',
+      hoverinfo:'text',flatshading:true,
+      lighting:{ambient:0.55,diffuse:0.65,specular:0.25,roughness:0.6,fresnel:0.15},
+      lightposition:{x:200,y:-100,z:300}});
+    if(sel){
+      const{x:bx,y:by,z:bz}=b;
+      const ex=[],ey=[],ez=[];
+      for(const[a,c] of [[0,1],[1,2],[2,3],[3,0],[4,5],[5,6],[6,7],[7,4],[0,4],[1,5],[2,6],[3,7]]){
+        ex.push(bx[a],bx[c],null);ey.push(by[a],by[c],null);ez.push(bz[a],bz[c],null);
+      }
+      T.push({type:'scatter3d',x:ex,y:ey,z:ez,mode:'lines',
+        line:{color:'#58a6ff',width:3},showlegend:false,hoverinfo:'skip'});
+    }
+  }
+  return T;
+}
+
+// ═══════════════════════════════════════════════════════════════════
+//  COLLISION DETECTION
+// ═══════════════════════════════════════════════════════════════════
+
+function checkCollisions(){
+  const w=[];
+  for(const it of items){
+    if(it.locked) continue;
+    if(it.x<0||it.x+it.dx>CW) w.push(it.name+' past wall');
+    if(it.y<0||it.y+it.dy>CL) w.push(it.name+' past front/rear');
+    if(it.z+it.dz>CH) w.push(it.name+' hits ceiling');
+    if(it.z<WW_H&&it.y<WW_Y1&&it.y+it.dy>WW_Y0){
+      if(it.x<WW_PROT) w.push(it.name+' overlaps passenger wheel well');
+      if(it.x+it.dx>CW-WW_PROT) w.push(it.name+' overlaps driver wheel well');
+    }
+    if(it.x<2&&it.y<51&&it.z<67) w.push(it.name+' may block sliding door');
+  }
+  return w;
+}
+
+// ═══════════════════════════════════════════════════════════════════
+//  PLOTLY RENDER
+// ═══════════════════════════════════════════════════════════════════
+
+const PLOTLY_LAYOUT={
+  scene:{
+    xaxis:{title:'Width (pass→driver) [in]',range:[-30,CW+30],
+           backgroundcolor:'#1a1a2e',gridcolor:'#2a2a4a',showbackground:true,color:'#8888aa'},
+    yaxis:{title:'Length (front→rear) [in]',range:[-30,CL+20],
+           backgroundcolor:'#16213e',gridcolor:'#2a2a4a',showbackground:true,color:'#8888aa'},
+    zaxis:{title:'Height [in]',range:[-18,CH+25],
+           backgroundcolor:'#0f3460',gridcolor:'#2a2a4a',showbackground:true,color:'#8888aa'},
+    aspectmode:'data',
+    camera:{eye:{x:1.6,y:-1.4,z:0.9},up:{x:0,y:0,z:1}},
+  },
+  paper_bgcolor:'#0d1117',plot_bgcolor:'#0d1117',
+  legend:{font:{color:'white',size:9},bgcolor:'rgba(20,20,40,0.7)',
+          bordercolor:'#444466',borderwidth:1,itemsizing:'constant',
+          groupclick:'toggleitem',tracegroupgap:2},
+  margin:{l:0,r:0,t:10,b:0},
+  uirevision:'keep',
+};
+
+let cachedStruct=buildStructural();
+
+function render(){
+  Plotly.react('plotly-3d',[...cachedStruct,...itemTraces()],PLOTLY_LAYOUT,{displayModeBar:true});
+  const w=checkCollisions();
+  document.getElementById('warnings').textContent=w.length?'⚠ '+w.join(' · '):'';
+  document.getElementById('status-dims').textContent=items.length+' items · '+CL+'L × '+CW+'W × '+CH+'H in';
+}
+function rebuildStruct(){cachedStruct=buildStructural();scheduleRender();}
+function scheduleRender(){if(updateTimer)clearTimeout(updateTimer);updateTimer=setTimeout(render,30);}
+
+// ═══════════════════════════════════════════════════════════════════
+//  VIEWS / SNAP / TABS
+// ═══════════════════════════════════════════════════════════════════
+
+function setView(v){
+  const c={'3q':{eye:{x:1.6,y:-1.4,z:0.9}},
+    top:{eye:{x:0,y:0,z:3.0},up:{x:0,y:1,z:0}},
+    driver:{eye:{x:2.5,y:0,z:0.3}},pass:{eye:{x:-2.5,y:0,z:0.3}},
+    rear:{eye:{x:0,y:2.5,z:0.3}},front:{eye:{x:0,y:-2.5,z:0.3}}};
+  Plotly.relayout('plotly-3d',{'scene.camera':c[v]||c['3q']});
+}
+function toggleSnap(){snapOn=!snapOn;document.getElementById('snap-btn').style.opacity=snapOn?'1':'0.5';
+  document.getElementById('status-text').textContent=snapOn?'Snap: ON (1" grid)':'Snap: OFF';}
+function snap(v){return snapOn?Math.round(v/SNAP)*SNAP:v;}
+function switchTab(name){
+  document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',['layout','structure','info'][i]===name));
+  document.querySelectorAll('.tab-panel').forEach((p,i)=>p.classList.toggle('active',
+    ['tab-layout','tab-structure','tab-info'][i]==='tab-'+name));
+}
+
+// ═══════════════════════════════════════════════════════════════════
+//  STRUCTURE PANEL
+// ═══════════════════════════════════════════════════════════════════
+
+function buildStructPanel(){
+  const p=document.getElementById('tab-structure');
+  let h='<div style="padding:4px;">';
+  h+='<div style="display:flex;gap:4px;margin-bottom:8px;">';
+  h+='<button onclick="allLayers(true)" style="flex:1;padding:4px;font-size:10px;border:1px solid var(--border);border-radius:3px;background:var(--bg3);color:var(--text);cursor:pointer;">Show All</button>';
+  h+='<button onclick="allLayers(false)" style="flex:1;padding:4px;font-size:10px;border:1px solid var(--border);border-radius:3px;background:var(--bg3);color:var(--text);cursor:pointer;">Hide All</button>';
+  h+='</div>';
+  const groups={Shell:['floor','walls','roof'],Openings:['slidingDoor','rearDoors','windows'],
+    'Cargo Structure':['wheelWells','pillars','roofRibs','floorRibs','tieDowns'],
+    Underfloor:['fuelTank','defTank'],Annotations:['dims']};
+  for(const[gn,keys] of Object.entries(groups)){
+    h+='<div class="layer-group"><div class="layer-group-title">'+gn+'</div>';
+    for(const k of keys){
+      const L=layers[k];
+      h+='<div class="layer-row" onclick="togLayer(\''+k+'\')">'+
+        '<input type="checkbox" class="layer-cb" '+(L.on?'checked':'')+' id="lcb-'+k+
+        '" onclick="event.stopPropagation();togLayer(\''+k+'\')"/>'+
+        '<span class="layer-swatch" style="background:'+L.color+'"></span>'+
+        '<span class="layer-name">'+L.name+'</span></div>';
+    }
+    h+='</div>';
+  }
+  h+='</div>';
+  p.innerHTML=h;
+}
+function togLayer(k){layers[k].on=!layers[k].on;
+  const cb=document.getElementById('lcb-'+k);if(cb)cb.checked=layers[k].on;rebuildStruct();}
+function allLayers(on){for(const k of Object.keys(layers))layers[k].on=on;buildStructPanel();rebuildStruct();}
+
+// ═══════════════════════════════════════════════════════════════════
+//  LAYOUT PANEL
+// ═══════════════════════════════════════════════════════════════════
+
+function buildSidebar(){
+  const panel=document.getElementById('tab-layout');panel.innerHTML='';
+  for(const it of items){
+    const locked=it.locked||false;
+    const c=document.createElement('div');
+    c.className='item-card'+(it.id===selectedId?' selected':'')+(locked?' locked':'');
+    c.id='card-'+it.id;
+    const h=document.createElement('div');h.className='item-header';
+    h.innerHTML='<span class="item-swatch" style="background:'+it.color+'"></span>'+
+      '<span class="item-name">'+it.name+'</span>'+
+      '<span class="item-zone">'+(it.zone||'')+'</span>'+
+      '<span class="item-toggle" id="tog-'+it.id+'">▶</span>';
+    h.onclick=()=>toggleCard(it.id);c.appendChild(h);
+    const b=document.createElement('div');b.className='item-body';b.id='body-'+it.id;
+    if(!locked){
+      b.innerHTML='<div class="prop-group-label">Position</div>'+
+        sl(it,'x','X',-10,CW+10)+sl(it,'y','Y',-10,CL+10)+sl(it,'z','Z',-5,CH+10)+
+        '<div class="prop-group-label">Dimensions</div>'+
+        sl(it,'dx','W',1,72)+sl(it,'dy','D',1,120)+sl(it,'dz','H',1,CH)+
+        '<div class="prop-group-label">Appearance</div>'+
+        '<div class="prop-row"><span class="prop-label">🎨</span>'+
+        '<input type="color" value="'+it.color+'" style="flex:1;height:22px;background:none;border:none;cursor:pointer;" onchange="setProp(\''+it.id+'\',\'color\',this.value)"/>'+
+        '<span class="prop-label" style="width:auto">α</span>'+
+        '<input type="range" class="prop-slider" min="0.05" max="1" step="0.05" value="'+it.opacity+'" style="flex:1" oninput="setProp(\''+it.id+'\',\'opacity\',parseFloat(this.value))"/></div>'+
+        '<div class="item-actions"><button onclick="dupItem(\''+it.id+'\')">⧉ Dup</button><button class="del" onclick="delItem(\''+it.id+'\')">✕ Del</button></div>';
+    } else {
+      b.innerHTML='<div style="font-size:10px;color:#484f58;padding:4px;">🔒 Locked</div>';
+    }
+    c.appendChild(b);panel.appendChild(c);
+  }
+}
+function sl(it,p,lbl,mn,mx){
+  return '<div class="prop-row"><span class="prop-label">'+lbl+'</span>'+
+    '<input type="range" class="prop-slider" min="'+mn+'" max="'+mx+'" step="0.1" value="'+it[p]+'" id="sl-'+it.id+'-'+p+'" oninput="onSl(\''+it.id+'\',\''+p+'\',this.value)"/>'+
+    '<input type="text" class="prop-value" value="'+it[p].toFixed(1)+'" id="vl-'+it.id+'-'+p+'" onchange="onVl(\''+it.id+'\',\''+p+'\',this.value)"/></div>';
+}
+function toggleCard(id){
+  selectedId=(selectedId===id)?null:id;
+  for(const it of items){
+    const b=document.getElementById('body-'+it.id),t=document.getElementById('tog-'+it.id),
+          c=document.getElementById('card-'+it.id);
+    if(!b||!t||!c)continue;
+    if(it.id===selectedId){b.classList.add('open');t.classList.add('open');c.classList.add('selected');}
+    else{b.classList.remove('open');t.classList.remove('open');c.classList.remove('selected');}
+  }
+  scheduleRender();
+}
+
+// ═══════════════════════════════════════════════════════════════════
+//  PROPERTY EDITING
+// ═══════════════════════════════════════════════════════════════════
+
+function fi(id){return items.find(i=>i.id===id);}
+function onSl(id,p,val){const it=fi(id);if(!it)return;let v=snap(parseFloat(val));it[p]=v;
+  const e=document.getElementById('vl-'+id+'-'+p);if(e)e.value=v.toFixed(1);scheduleRender();}
+function onVl(id,p,val){const it=fi(id);if(!it)return;let v=snap(parseFloat(val));if(isNaN(v))return;
+  it[p]=v;const e=document.getElementById('sl-'+id+'-'+p);if(e)e.value=v;scheduleRender();}
+function setProp(id,p,val){const it=fi(id);if(!it)return;it[p]=val;scheduleRender();}
+
+// ═══════════════════════════════════════════════════════════════════
+//  ADD / DUPLICATE / DELETE / PRESETS
+// ═══════════════════════════════════════════════════════════════════
+
+function addItem(){document.getElementById('add-modal').classList.add('active');}
+function closeModal(id){document.getElementById(id).classList.remove('active');}
+function confirmAdd(){
+  const nm=document.getElementById('new-name').value||'Custom',
+    zone=document.getElementById('new-zone').value,
+    dx=parseFloat(document.getElementById('new-dx').value)||24,
+    dy=parseFloat(document.getElementById('new-dy').value)||18,
+    dz=parseFloat(document.getElementById('new-dz').value)||14,
+    color=document.getElementById('new-color').value,
+    id='c_'+(nextId++);
+  items.push({id,name:nm,zone,x:CW/2-dx/2,y:CL/2-dy/2,z:CH-dz-5,dx,dy,dz,color,opacity:0.7});
+  closeModal('add-modal');buildSidebar();selectedId=id;toggleCard(id);
+}
+const PRESETS={
+  overhead_cab:{name:'Overhead Cabinet',zone:'Overhead Storage',dx:24,dy:30,dz:12,color:'#6B8FA3',opacity:0.55,z:62,x:0,y:70},
+  shelf:{name:'Open Shelf',zone:'Overhead Storage',dx:28,dy:20,dz:1.5,color:'#8B7355',opacity:0.80,z:56,x:CW/2-14,y:50},
+  drawer:{name:'Under-Counter Drawer',zone:'Storage',dx:20,dy:18,dz:8,color:'#A0522D',opacity:0.75,z:0,x:10,y:75},
+  ltrack:{name:'L-Track Rail',zone:'Structure',dx:1.5,dy:60,dz:1,color:'#95A5A6',opacity:0.90,z:0,x:10,y:20},
+};
+function addPreset(k){const p=PRESETS[k],id=k+'_'+(nextId++);
+  items.push({...p,id});buildSidebar();selectedId=id;toggleCard(id);}
+function dupItem(id){const s=fi(id);if(!s)return;const nid='d_'+(nextId++);
+  items.push({...s,id:nid,name:s.name+' (copy)',x:s.x+3,y:s.y+3});
+  buildSidebar();selectedId=nid;toggleCard(nid);}
+function delItem(id){items=items.filter(i=>i.id!==id);
+  if(selectedId===id)selectedId=null;buildSidebar();scheduleRender();}
+
+// ═══════════════════════════════════════════════════════════════════
+//  IMPORT / EXPORT
+// ═══════════════════════════════════════════════════════════════════
+
+function exportJSON(){
+  const d={version:2,cargo:{length:CL,width:CW,height:CH},items:items.map(i=>({...i})),
+    layers:Object.fromEntries(Object.entries(layers).map(([k,v])=>[k,v.on])),
+    exported:new Date().toISOString()};
+  const b=new Blob([JSON.stringify(d,null,2)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(b);
+  a.download='van-layout-'+new Date().toISOString().slice(0,10)+'.json';a.click();
+  document.getElementById('status-text').textContent='✅ Layout exported!';}
+function importJSON(){document.getElementById('import-modal').classList.add('active');}
+function loadFile(e){const f=e.target.files[0];if(!f)return;
+  const r=new FileReader();r.onload=()=>{document.getElementById('import-text').value=r.result;};r.readAsText(f);}
+function confirmImport(){try{
+  const d=JSON.parse(document.getElementById('import-text').value);
+  if(d.items)items=d.items;else if(Array.isArray(d))items=d;
+  if(d.layers)for(const[k,v] of Object.entries(d.layers))if(layers[k])layers[k].on=v;
+  buildSidebar();buildStructPanel();rebuildStruct();closeModal('import-modal');
+  document.getElementById('status-text').textContent='✅ Imported!';
+  }catch(e){alert('Bad JSON: '+e.message);}}
+function resetLayout(){if(!confirm('Reset to default?'))return;
+  items=JSON.parse(JSON.stringify(BACKUP));selectedId=null;buildSidebar();scheduleRender();}
+
+// ═══════════════════════════════════════════════════════════════════
+//  KEYBOARD SHORTCUTS
+// ═══════════════════════════════════════════════════════════════════
+
+document.addEventListener('keydown',e=>{
+  if(e.target.tagName==='INPUT'||e.target.tagName==='TEXTAREA'||e.target.tagName==='SELECT')return;
+  switch(e.key){
+    case'1':setView('3q');break;case'2':setView('top');break;
+    case'3':setView('driver');break;case'4':setView('pass');break;
+    case'5':setView('rear');break;case'6':setView('front');break;
+    case'g':case'G':toggleSnap();break;
+    case'Escape':selectedId=null;buildSidebar();scheduleRender();break;
+    case'Delete':case'Backspace':
+      if(selectedId){const it=fi(selectedId);if(it&&!it.locked)delItem(selectedId);}break;
+    case'd':case'D':
+      if(selectedId&&!e.ctrlKey){const it=fi(selectedId);if(it&&!it.locked)dupItem(selectedId);}break;
+  }
+});
+
+// ═══════════════════════════════════════════════════════════════════
+//  INIT
+// ═══════════════════════════════════════════════════════════════════
+
+buildSidebar();
+buildStructPanel();
+render();
+
+</script>
+</body>
+</html>
