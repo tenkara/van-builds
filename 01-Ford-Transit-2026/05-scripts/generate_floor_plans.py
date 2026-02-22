@@ -59,7 +59,7 @@ Z2  = (114.0,155.0)   # East-west bed platform (pushed to rear) with sliding tab
 SO_W  = 33.0                # sofa width (33" backrest height when folded) - runs N-S along wall
 SO_D  = 8.0                 # sofa depth when FOLDED UP (estimated compact)
 SO_DEPLOYED_D = 20.0        # seat base depth when deployed (per specs)
-SO_X  = 0.0                 # flush against driver wall
+SO_X  = 6.5                 # 6.5" clearance from driver wall per FENTON FDFAAP specs
 SO_Y  = -5.0                # starts 5" into cab area (before partition at Y=0)
 SO_SH = 18.0                # seat height (flip-up design)
 SO_BH = 33.0                # backrest height (32.75" rounded to 33")
@@ -72,10 +72,10 @@ BA_Y0 = Z34[0]                 # starts at Y=28"
 BA_L  = Z34[1] - Z34[0]        # 51″ length (28-79, BEFORE wheel wells)
 TO_W, TO_D = 16.0, 16.0        # toilet (inside wet bath zone)
 TO_X  = 2.0                    # 2" from driver wall
-TO_Y  = BA_Y0 + 10.0           # positioned at Y=38-54 (inside Zone 3)
 SH_W  = 24.0                   # shower width 24"
 SH_D  = 28.0                   # shower depth (Y=28-56)
 SH_X, SH_Y = BA_X0, BA_Y0      # shower starts at bath zone
+TO_Y  = SH_Y + SH_D + 2.0      # positioned at Y=58-74 (aft of shower footprint, inside Zone 3)
 
 # ── Zone 4: Galley kitchen  (stbd / passenger side) - OPTIMIZED for slim fridge ──
 GA_D   = 24.0                   # counter depth (reduced for SMETA slim fridge)
@@ -83,10 +83,10 @@ GA_X0  = CW - GA_D              # starts at passenger wall (46.2")
 GA_Y0  = Z34[0]                 # starts at Y=28"
 GA_L   = Z34[1] - Z34[0]        # 51″ total length (28-79)
 FR_W, FR_D, FR_H = 15.8, 17.9, 22.0   # SMETA 1.2 cu ft compact fridge
-FR_X, FR_Y = GA_X0 + 2, GA_Y0   # fridge inside counter, 2" from edge (X=48.2, Y=28-43.8)
+FR_X, FR_Y = GA_X0 + 2, GA_Y0   # fridge inside counter, 2" from edge (X=48.2, Y=28-45.9)
 SK_W, SK_D = 15.0, 13.0         # sink with cutting board cover
-SK_X, SK_Y = GA_X0 + 2, GA_Y0 + FR_W  # sink after fridge (Y=52-67)
-CT_H = 36.0                     # counter height (fridge fits under at 32"H)
+SK_X, SK_Y = GA_X0 + 2, GA_Y0 + FR_D  # sink after fridge (Y≈45.9-58.9)
+CT_H = 36.0                     # counter height (fridge is 22"H and fits underneath)
 
 # ── Zone 2: Bed platform - MAXIMIZED depth, pushed to rear ──────────────
 BED_Y0 = Z2[0]                 # Y=114" (right after wheel wells)
@@ -120,8 +120,8 @@ TABLE_Y = Z2[0]                # slides from bed base at Y=114"
 TABLE_Y0 = Z6[0]               # table starts at Zone 6 (Y=79")
 
 # Windows (Y0, Y1 per side along port/stbd wall) - corrected for 155" cargo length
-P_WINS = [(8, 38), (50, 82), (96, 128)]      # Driver side (port/left) - 3 windows
-S_WINS = [(55, 85), (96, 128)]                # Passenger side (stbd/right) - 2 windows (sliding door at front)
+P_WINS = [(8, 38), (50, 82), (96, 126)]      # Driver side (port/left) - 3 windows
+S_WINS = [(55, 85), (96, 126)]                # Passenger side (stbd/right) - 2 windows (sliding door at front)
 WIN_SILL = 36.0
 WIN_H    = 22.0
 
@@ -581,9 +581,9 @@ def draw_elevation():
     DV(ax, Z1[1] + 6, 0, SO_TH,   f"{SO_TH}\" total",                    xo=2, fs=4.5)
     DV(ax, Z34[1] + 3, 0, CT_H,   f"{CT_H}\" counter",                   xo=2, fs=4.5)
     DV(ax, BED_Y1 + 3, 0, BED_H,  f"{BED_H}\" platform",                 xo=2, fs=4.5)
-    DH(ax, Z1[0],   Z1[1],   -11, "28\"",      yo=4)
-    DH(ax, Z5[0],   Z5[1],   -11, "42\"",      yo=4)
-    DH(ax, Z34[0],  Z34[1],  -11, "44\"",      yo=4)
+    DH(ax, 0,       Z1[1],   -11, "28\"",      yo=4)
+    DH(ax, Z5[0],   Z5[1],   -11, "35\"",      yo=4)
+    DH(ax, Z34[0],  Z34[1],  -11, "51\"",      yo=4)
     # DH(ax, ZTR[0],  ZTR[1],  -11, "16\"",      yo=4)  # TRANSITION ELIMINATED
     DH(ax, Z2[0],   Z2[1],   -11, "41\"",      yo=4)
     DH(ax, 0, CL, -17, "155\"  (12′–11\")  Usable Cargo Length", yo=5, fs=5.5)

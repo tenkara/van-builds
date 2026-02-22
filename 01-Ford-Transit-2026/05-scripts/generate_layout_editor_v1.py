@@ -74,18 +74,18 @@ DEFAULT_ITEMS = [
      "x":55.2,"y":90,"z":36, "dx":15,"dy":13,"dz":7,
      "color":"#85C1E9", "opacity":0.85},
 
-    # Zone 2 – Bed (reduced depth to fit 155" cargo length)
+    # Zone 2 – Bed (updated to start at Y=114 per new layout)
     {"id":"bed_plat",     "name":"Z2 – Bed Platform",     "zone":"Zone 2 – Bed",
-     "x":1,   "y":130,"z":0,  "dx":68.2,"dy":25,"dz":28,
+     "x":1,   "y":114,"z":0,  "dx":68.2,"dy":41,"dz":28,
      "color":"#1E6B3A", "opacity":0.60},
     {"id":"mattress",     "name":"Z2 – Mattress",         "zone":"Zone 2 – Bed",
-     "x":5.1, "y":130.5,"z":28,"dx":60,"dy":24,"dz":10,
+     "x":5.1, "y":114.5,"z":28,"dx":60,"dy":40,"dz":10,
      "color":"#A9DFBF", "opacity":0.92},
     {"id":"water_tank",   "name":"Z2 – Water Tank 25 gal","zone":"Zone 2 – Bed",
-     "x":2,   "y":131,"z":1,  "dx":26, "dy":20, "dz":26,
+     "x":2,   "y":115,"z":1,  "dx":26, "dy":20, "dz":26,
      "color":"#3498DB", "opacity":0.30},
     {"id":"ecoflow",      "name":"Z2 – EcoFlow 10 kWh",  "zone":"Zone 2 – Bed",
-     "x":42.2,"y":131,"z":1,  "dx":26, "dy":20, "dz":26,
+     "x":42.2,"y":115,"z":1,  "dx":26, "dy":20, "dz":26,
      "color":"#F39C12", "opacity":0.30},
 
     # Overhead cabinets (new – user requested)
