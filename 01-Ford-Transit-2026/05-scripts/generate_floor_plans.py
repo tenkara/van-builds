@@ -195,7 +195,7 @@ def LB(ax, x, y, txt, fs=6.5, c=None, ha="center", va="center",
             bbox=bbox, zorder=zorder)
 
 
-def DH(ax, x0, x1, y, txt, yo=5.0, fs=5.0):
+def DH(ax, x0, x1, y, txt, yo=5.0, fs=6.5):
     """Horizontal dimension line with arrows + label."""
     ax.plot([x0, x0], [y, y + yo * 0.9], color=C["dim"], lw=0.5, zorder=6)
     ax.plot([x1, x1], [y, y + yo * 0.9], color=C["dim"], lw=0.5, zorder=6)
@@ -207,7 +207,7 @@ def DH(ax, x0, x1, y, txt, yo=5.0, fs=5.0):
             bbox=dict(fc="white", ec="none", alpha=0.8, pad=0.1))
 
 
-def DV(ax, x, y0, y1, txt, xo=5.0, fs=5.0):
+def DV(ax, x, y0, y1, txt, xo=5.0, fs=6.5):
     """Vertical dimension line with arrows + label."""
     ax.plot([x, x + xo * 0.9], [y0, y0], color=C["dim"], lw=0.5, zorder=6)
     ax.plot([x, x + xo * 0.9], [y1, y1], color=C["dim"], lw=0.5, zorder=6)
@@ -311,10 +311,10 @@ def draw_floor_plan():
     R(ax, SO_X + 1.5, -5 + 1.5, 5, SO_W - 3,
       "none", ec=C["sofa"], lw=0.5, hatch="///", alpha=0.5, zorder=6)
     LB(ax, SO_X + SO_D / 2, -5 + SO_W / 2,
-       "FENTON FDFAAP\nFLIP-UP SOFA\n(FOLDED UP)\n33\"L × 8\"D", fs=5, bold=True)
+       "FENTON FDFAAP\nFLIP-UP SOFA\n(FOLDED UP)\n33\"L × 8\"D", fs=6, bold=True)
     LB(ax, CW / 2, Z1[1] - 6,
        "ZONE 1  –  Driver Side Wall  (extends 5\" into cab)\n(33\"W × 20\"D when deployed  ·  Toilet slides under)",
-       fs=5.5, bold=True)
+       fs=7, bold=True)
 
     # ═══ ZONE 6: ENTERTAINMENT/DINING AREA (over wheel wells) ════════════════
     # Background - clean white
@@ -322,19 +322,19 @@ def draw_floor_plan():
     # Sofas on both sides
     R(ax, SOFA6_PORT_X, SOFA6_Y0, SOFA6_W, SOFA6_L, C["sofa"], ec=C["wall"], lw=1.1, zorder=4)
     LB(ax, SOFA6_PORT_X + SOFA6_W / 2, SOFA6_Y0 + SOFA6_L / 2,
-       "SOFA\n(over wheel\nwell)", fs=4.5, bold=True)
+       "SOFA\n(over wheel\nwell)", fs=5.5, bold=True)
     R(ax, SOFA6_STBD_X, SOFA6_Y0, SOFA6_W, SOFA6_L, C["sofa"], ec=C["wall"], lw=1.1, zorder=4)
     LB(ax, SOFA6_STBD_X + SOFA6_W / 2, SOFA6_Y0 + SOFA6_L / 2,
-       "SOFA\n(over wheel\nwell)", fs=4.5, bold=True)
+       "SOFA\n(over wheel\nwell)", fs=5.5, bold=True)
     # Sliding table from bed base (stays within Zone 6)
     R(ax, TABLE_X, TABLE_Y0, TABLE_W, TABLE_D, C["table"], ec=C["wall"],
       lw=0.9, alpha=0.8, zorder=3)
     LB(ax, TABLE_X + TABLE_W / 2, TABLE_Y0 + TABLE_D / 2,
-       "SLIDING\nTABLE\n(from bed)", fs=4.5)
+       "SLIDING\nTABLE\n(from bed)", fs=5.5)
     # Central aisle label in Zone 6
     aisle_w = SOFA6_STBD_X - (SOFA6_PORT_X + SOFA6_W)
     LB(ax, CW / 2, (Z6[0] + Z6[1]) / 2,
-       f"ZONE 6  –  ENTERTAINMENT / DINING\n{aisle_w:.0f}\" aisle between sofas  ·  Sliding table", fs=5.5, bold=True)
+       f"ZONE 6  –  ENTERTAINMENT / DINING\n{aisle_w:.0f}\" aisle between sofas  ·  Sliding table", fs=7, bold=True)
 
     # ═══ ZONE 5: CLEAR LIVING AISLE ══════════════════════════════════════════
     # Label positioned in the middle aisle between wet bath and galley
@@ -343,7 +343,7 @@ def draw_floor_plan():
     aisle_width = aisle_x_end - aisle_x_start
     aisle_center_x = (aisle_x_start + aisle_x_end) / 2
     LB(ax, aisle_center_x, (Z34[0] + Z34[1]) / 2,
-       f"ZONE 5\nCLEAR LIVING\nAISLE\n{aisle_width:.1f}\" wide", fs=5.5, bold=True)
+       f"ZONE 5\nCLEAR LIVING\nAISLE\n{aisle_width:.1f}\" wide", fs=7, bold=True)
 
     # ═══ ZONE 3: WET BATH (DRIVER SIDE) ══════════════════════════════════════
     R(ax, BA_X0, BA_Y0, BA_W, BA_L, C["bath_bg"], ec=C["bath"], lw=1.1, zorder=2)
@@ -360,7 +360,7 @@ def draw_floor_plan():
         boxstyle="round,pad=1", fc="#EAEAEA", ec=C["bath"], lw=0.5, zorder=5))
     LB(ax, TO_X + TO_W / 2, TO_Y + TO_D / 2, "TOILET\n(dry flush)", fs=5)
     LB(ax, BA_X0 + BA_W / 2, BA_Y0 + BA_L * 0.75 + 2,
-       "ZONE 3\nHIDEAWAY WET BATH\n24\"W × 51\"L", fs=5.5, bold=True)
+       "ZONE 3\nHIDEAWAY WET BATH\n24\"W × 51\"L", fs=7, bold=True)
 
     # ═══ ZONE 4: GALLEY KITCHEN (PASSENGER SIDE) ═════════════════════════════
     R(ax, GA_X0, GA_Y0, GA_D, GA_L, C["galley_bg"], ec=C["galley"], lw=1.1, zorder=2)
@@ -380,7 +380,7 @@ def draw_floor_plan():
     LB(ax, GA_X0 + GA_D / 2, GA_Y0 + FR_D + (GA_L - FR_D) / 2,
        "COUNTER\n& STORAGE", fs=5)
     LB(ax, GA_X0 + GA_D / 2, GA_Y0 + GA_L * 0.85,
-       "ZONE 4\nGALLEY KITCHEN\n24\"D × 51\"L", fs=5.5, bold=True)
+       "ZONE 4\nGALLEY KITCHEN\n24\"D × 51\"L", fs=7, bold=True)
 
     # ═══ TRANSITION ══════════════════════════════════════════════════════════
     R(ax, 0, ZTR[0], CW, ZTR[1] - ZTR[0], C["transition"],
@@ -407,16 +407,16 @@ def draw_floor_plan():
     LB(ax, CW - ECO_W / 2, BED_Y0 + ECO_D / 2, "ECOFLOW\n10 kWh\nbatteries", fs=4.5, c="#784212")
     LB(ax, CW / 2, BED_Y0 + BED_D * 0.82,
        "ZONE 2  –  EAST-WEST BED PLATFORM  (28\" high)\n50+ cu ft under-bed garage  ·  side-panel access",
-       fs=5.5, bold=True)
+       fs=7, bold=True)
 
     # ═══ DIMENSION LINES ══════════════════════════════════════════════════════
-    DH(ax, 0, CW, CL + 10, f"70.2\"  (5′–10\")  Interior Width", yo=7, fs=5.5)
-    DV(ax, CW + 10, 0, CL, f"155.0\"  (12′–11\")  Usable Cargo Length", xo=9, fs=5.5)
+    DH(ax, 0, CW, CL + 10, f"70.2\"  (5′–10\")  Interior Width", yo=7, fs=7)
+    DV(ax, CW + 10, 0, CL, f"155.0\"  (12′–11\")  Usable Cargo Length", xo=9, fs=7)
     # Sofa dimension along driver wall (length, not width since rotated)
     # DV(ax, -6, SO_Y, SO_Y + SO_W, "40\" sofa", xo=4, fs=5)
-    DH(ax, WW_W, CW - WW_W, WW_Y0 - 6, f"{WW_CLR}\"  between wheel wells", yo=4, fs=5)
-    DH(ax, 0, BA_W,  Z34[0] - 6, "24\" bath", yo=4, fs=4.5)
-    DH(ax, GA_X0, CW, Z34[0] - 6, "24\" galley", yo=4, fs=4.5)
+    DH(ax, WW_W, CW - WW_W, WW_Y0 - 6, f"{WW_CLR}\"  between wheel wells", yo=4, fs=6)
+    DH(ax, 0, BA_W,  Z34[0] - 6, "24\" bath", yo=4, fs=6)
+    DH(ax, GA_X0, CW, Z34[0] - 6, "24\" galley", yo=4, fs=6)
     # zone boundary ticks on left
     for y, txt in [(Z1[0], "0\""), (Z1[1], "28\""), (Z34[0], "28\""),
                    (Z34[1], "79\""), (WW_Y0, "79\""), (WW_Y1, "114\""), (Z2[1], "155\"")]:
@@ -574,19 +574,19 @@ def draw_elevation():
     LB(ax, (ZTR[0] + ZTR[1]) / 2, 22, "ACCESS", fs=5, bg=False)
 
     # ── dimension lines ───────────────────────────────────────────────────────
-    DV(ax, CL + 8,  0,  CH,        f"81.5\"  (6′–9½\")  Interior Height", xo=7, fs=5.5)
-    DV(ax, CL + 3,  0,  WIN_SILL,  f"{WIN_SILL}\" sill",                  xo=2.5, fs=4.5)
-    DV(ax, CL + 5,  WIN_SILL, WIN_SILL + WIN_H, f"{WIN_H}\" win",         xo=2.5, fs=4.5)
-    DV(ax, Z1[1] + 3, 0, SO_SH,   f"{SO_SH}\" seat",                     xo=2, fs=4.5)
-    DV(ax, Z1[1] + 6, 0, SO_TH,   f"{SO_TH}\" total",                    xo=2, fs=4.5)
-    DV(ax, Z34[1] + 3, 0, CT_H,   f"{CT_H}\" counter",                   xo=2, fs=4.5)
-    DV(ax, BED_Y1 + 3, 0, BED_H,  f"{BED_H}\" platform",                 xo=2, fs=4.5)
+    DV(ax, CL + 8,  0,  CH,        f"81.5\"  (6′–9½\")  Interior Height", xo=7, fs=7)
+    DV(ax, CL + 3,  0,  WIN_SILL,  f"{WIN_SILL}\" sill",                  xo=2.5, fs=6)
+    DV(ax, CL + 5,  WIN_SILL, WIN_SILL + WIN_H, f"{WIN_H}\" win",         xo=2.5, fs=6)
+    DV(ax, Z1[1] + 3, 0, SO_SH,   f"{SO_SH}\" seat",                     xo=2, fs=6)
+    DV(ax, Z1[1] + 6, 0, SO_TH,   f"{SO_TH}\" total",                    xo=2, fs=6)
+    DV(ax, Z34[1] + 3, 0, CT_H,   f"{CT_H}\" counter",                   xo=2, fs=6)
+    DV(ax, BED_Y1 + 3, 0, BED_H,  f"{BED_H}\" platform",                 xo=2, fs=6)
     DH(ax, 0,       Z1[1],   -11, "28\"",      yo=4)
     DH(ax, Z5[0],   Z5[1],   -11, "35\"",      yo=4)
     DH(ax, Z34[0],  Z34[1],  -11, "51\"",      yo=4)
     # DH(ax, ZTR[0],  ZTR[1],  -11, "16\"",      yo=4)  # TRANSITION ELIMINATED
     DH(ax, Z2[0],   Z2[1],   -11, "41\"",      yo=4)
-    DH(ax, 0, CL, -17, "155\"  (12′–11\")  Usable Cargo Length", yo=5, fs=5.5)
+    DH(ax, 0, CL, -17, "155\"  (12′–11\")  Usable Cargo Length", yo=5, fs=7)
 
     # ── zone top labels ───────────────────────────────────────────────────────
     for (y0, y1, lbl, col) in [
@@ -595,7 +595,7 @@ def draw_elevation():
         (WW_Y0,  WW_Y1,  "WHEEL\nWELLS",  C["ww"]),
         (Z2[0],  Z2[1],  "Z2\nBED",       C["bed"]),
     ]:
-        LB(ax, (y0 + y1) / 2, CH + 8, lbl, fs=5.5, bold=True, c=col, bg=False)
+        LB(ax, (y0 + y1) / 2, CH + 8, lbl, fs=7, bold=True, c=col, bg=False)
 
 
     plt.tight_layout(pad=0.3)
