@@ -32,27 +32,27 @@ DPI = 200          # 200 dpi → good screen + print quality without huge files
 # DIMENSIONS  (all in inches – real world)
 # ═════════════════════════════════════════════════════════════════════════════
 
-# Interior cargo envelope
-CL   = 172.2    # length  partition → rear doors
-CW   = 70.2     # width   port wall → starboard wall
+# Interior cargo envelope - CORRECTED per user measurements
+CL   = 155.0    # USABLE cargo length  partition → rear door threshold (measured)
+CW   = 70.2     # width   port wall → starboard wall (at beltline)
 CH   = 81.5     # height  floor → ceiling
 
 # Cab stub shown above partition in plan view
 CAB_D = 32.0
 
-# Wheel wells (updated to match dimension-verification-checklist.md)
+# Wheel wells - CORRECTED per user measurements
 WW_CLR  = 52.0                  # clear between wheel wells
 WW_W    = 8.0                   # 8″ protrusion each side
-WW_Y0   = 68.0                  # starts  68″ from partition
-WW_Y1   = 103.0                 # ends   103″ from partition
+WW_Y0   = 79.0                  # starts  79″ from partition (155 - 41 - 35)
+WW_Y1   = 114.0                 # ends   114″ from partition (155 - 41)
 WW_H    = 11.0                  # height from floor
 
-# Zone boundaries  (Y from front partition, 0 → 172.2)
+# Zone boundaries  (Y from front partition, 0 → 155.0)
 Z1  = ( 0.0,  28.0)   # Forward-facing sofa bed
 Z5  = (28.0,  70.0)   # Dining / living aisle
 Z34 = (70.0, 114.0)   # Wet bath (port) + Galley kitchen (stbd)
 ZTR = (114.0,130.0)   # Transition / access
-Z2  = (130.0,172.2)   # East-west bed platform
+Z2  = (130.0,155.0)   # East-west bed platform
 
 # ── Zone 1: Forward-facing sofa ───────────────────────────────────────────
 SO_W  = 48.0
@@ -87,10 +87,10 @@ CT_H = 36.0                    # counter height
 # ── Zone 2: Bed platform ─────────────────────────────────────────────────
 BED_Y0 = Z2[0]
 BED_Y1 = Z2[1]
-BED_D  = BED_Y1 - BED_Y0      # 42.2″
+BED_D  = BED_Y1 - BED_Y0      # 25″ (155 - 130)
 BED_H  = 28.0
 MAT_W  = 60.0                  # RV-Queen east-west
-MAT_D  = 40.0                  # north-south (custom fit)
+MAT_D  = 24.0                  # north-south (reduced to fit)
 MAT_X  = (CW - MAT_W) / 2
 MAT_Y  = BED_Y0 + (BED_D - MAT_D) / 2
 
@@ -103,9 +103,9 @@ TBL_W, TBL_D = 28.0, 20.0
 TBL_X = BA_W + 2
 TBL_Y = Z5[0] + 12.0
 
-# Windows (Y0, Y1 per side along port/stbd wall) - updated to match checklist
-P_WINS = [(8, 38), (50, 82), (96, 132)]     # Driver side (port/left) - 3 windows
-S_WINS = [(55, 85), (96, 132)]               # Passenger side (stbd/right) - 2 windows
+# Windows (Y0, Y1 per side along port/stbd wall) - corrected for 155" cargo length
+P_WINS = [(8, 38), (50, 82), (96, 128)]      # Driver side (port/left) - 3 windows
+S_WINS = [(55, 85), (96, 128)]                # Passenger side (stbd/right) - 2 windows (sliding door at front)
 WIN_SILL = 36.0
 WIN_H    = 22.0
 

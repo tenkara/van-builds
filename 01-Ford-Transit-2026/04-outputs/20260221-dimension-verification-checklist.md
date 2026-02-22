@@ -21,10 +21,10 @@ Height is measured from the **floor surface** to the **ceiling peak** (center).
 | # | Dimension | Current Value | Actual (Measured) | ✅/Adjust |
 |---|-----------|:---:|:---:|:---:|
 | 1 | **Cargo Length** — partition face → rear bumper (Ford spec) | **172.2"** | _____ | |
-| 2 | **Usable Floor Length** — partition face → rear door threshold | **145"** | _155_ | |
+| 2 | **Usable Floor Length** — partition face → rear door threshold | **155"** | **155"** | ✅ |
 | 3 | **Cargo Width at Floor** — wall-to-wall at floor level | **68"** | _____ | |
 | 4 | **Cargo Width at Beltline** — widest point (~36" up) | **70.2"** | _____ | |
-| 5 | **Cargo Height** — floor to ceiling peak (center) | **79"** | _____ | |
+| 5 | **Cargo Height** — floor to ceiling peak (center) | **81.5"** | _____ | |
 
 ---
 
@@ -35,13 +35,13 @@ All Y measurements from the **inside face of the partition**.
 
 | # | Dimension | Current Value | Actual (Measured) | ✅/Adjust |
 |---|-----------|:---:|:---:|:---:|
-| 6 | **Wheel Well — Front Edge** (Y₀) — partition → front of WW | **68"** | _____ | |
-| 7 | **Wheel Well — Rear Edge** (Y₁) — partition → rear of WW | **103"** | _____ | |
-| 8 | **Wheel Well Length** (Y₁ − Y₀) | **35"** | _____ | |
+| 6 | **Wheel Well — Front Edge** (Y₀) — partition → front of WW | **79"** | **79"** | ✅ |
+| 7 | **Wheel Well — Rear Edge** (Y₁) — partition → rear of WW | **114"** | **114"** | ✅ |
+| 8 | **Wheel Well Length** (Y₁ − Y₀) | **35"** | **35"** | ✅ |
 | 9 | **Wheel Well Protrusion** — wall to inner face at widest | **8"** | _____ | |
 | 10 | **Wheel Well Height** — floor to top of arch | **11"** | _____ | |
 | 11 | **Width Between Wheel Wells** — clear flat floor | **52"** | _____ | |
-| 12 | **Behind Wheel Wells → Rear Door** (usable floor − Y₁) | **42"** | _____ | |
+| 12 | **Behind Wheel Wells → Rear Door** (usable floor − Y₁) | **41"** | **41"** | ✅ |
 
 ### Wheel Well Diagram (Top View — looking down)
 
@@ -52,15 +52,15 @@ All Y measurements from the **inside face of the partition**.
           │            68" wide at floor                │
           │                                             │
           │                                             │
-    Y=68" ├──┐                                     ┌──┤  ← WW front edge
+    Y=79" ├──┐                                     ┌──┤  ← WW front edge
           │WW│←  8" protrusion each side          │WW│
           │WW│         52" clear between          │WW│  ← 35" long
           │WW│                                     │WW│
-   Y=103" ├──┘                                     └──┤  ← WW rear edge
+   Y=114" ├──┘                                     └──┤  ← WW rear edge
           │                                             │
-          │         42" behind wheel wells              │
+          │         41" behind wheel wells              │
           │                                             │
-   Y=145" └─────────────────────────────────────────────┘  ← Rear door threshold
+   Y=155" └─────────────────────────────────────────────┘  ← Rear door threshold
 ```
 
 ### Wheel Well Diagram (Side View — passenger side)
@@ -70,7 +70,7 @@ All Y measurements from the **inside face of the partition**.
          │ ╱                     ╲  ← Dome/arch shape
      0" ─┘╱─────── 35" long ──────╲──── floor level
           │                        │
-        Y=68"                   Y=103"
+        Y=79"                   Y=114"
 ```
 
 ---
