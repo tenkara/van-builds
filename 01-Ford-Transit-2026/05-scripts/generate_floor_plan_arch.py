@@ -85,7 +85,7 @@ GA_L   = Z34[1] - Z34[0]        # 51″ total length (28-79)
 FR_W, FR_D, FR_H = 15.8, 17.9, 22.0   # SMETA 1.2 cu ft compact fridge
 FR_X, FR_Y = GA_X0 + 2, GA_Y0   # fridge inside counter, 2" from edge (X=48.2, Y=28-45.9)
 SK_W, SK_D = 15.0, 13.0         # sink with cutting board cover
-SK_X, SK_Y = GA_X0 + 2, GA_Y0 + FR_D + 15  # sink after fridge, moved further south (Y≈60.9-73.9)
+SK_X, SK_Y = GA_X0 + 2, GA_Y0 + FR_D  # sink after fridge (Y≈45.9-58.9)
 CT_H = 36.0                     # counter height (fridge is 22"H and fits underneath)
 
 # ── Zone 2: Bed platform - MAXIMIZED depth, pushed to rear ──────────────
@@ -93,8 +93,8 @@ BED_Y0 = Z2[0]                 # Y=114" (right after wheel wells)
 BED_Y1 = Z2[1]                 # Y=155" (rear door)
 BED_D  = BED_Y1 - BED_Y0       # 41″ (155 - 114)
 BED_H  = 28.0                  # optimized for window view, garage access, bed entry
-MAT_W  = 70.0                  # RV-Queen east-west (increased to 70")
-MAT_D  = 55.0                  # north-south (increased to 55" - note: exceeds bed platform depth of 41")
+MAT_W  = 70.0                  # RV-Queen east-west (70" California King width)
+MAT_D  = 55.0                  # north-south (55" depth, extends beyond 41" platform)
 MAT_X  = (CW - MAT_W) / 2
 MAT_Y  = BED_Y0 + (BED_D - MAT_D) / 2
 
