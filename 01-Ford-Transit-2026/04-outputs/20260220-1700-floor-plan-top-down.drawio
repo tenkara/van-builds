@@ -1,0 +1,298 @@
+<mxfile host="app.diagrams.net" modified="2026-02-22T00:00:00.000Z" agent="Claude Code" version="24.0.0">
+  <diagram name="Floor Plan" id="floor-plan-1">
+    <mxGraphModel dx="1422" dy="794" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2200" pageHeight="1850" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- Background -->
+        <mxCell id="background" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#EAECEE;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="0" y="0" width="2200" height="1850" as="geometry" />
+        </mxCell>
+
+        <!-- CAB AREA (above partition) -->
+        <mxCell id="cab-area" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#E8ECEF;strokeColor=#1C2833;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="280" y="50" width="702" height="150" as="geometry" />
+        </mxCell>
+
+        <!-- Driver Seat -->
+        <mxCell id="driver-seat" value="DRIVER&#xa;SEAT" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#D2A679;strokeColor=#1C2833;strokeWidth=2;fontStyle=1;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="305" y="80" width="90" height="90" as="geometry" />
+        </mxCell>
+
+        <!-- Passenger Seat -->
+        <mxCell id="passenger-seat" value="PASS.&#xa;SEAT" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#D2A679;strokeColor=#1C2833;strokeWidth=2;fontStyle=1;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="867" y="80" width="90" height="90" as="geometry" />
+        </mxCell>
+
+        <!-- CAB Label -->
+        <mxCell id="cab-label" value="CAB  (factory – not converted)" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=12;fontColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="431" y="175" width="400" height="20" as="geometry" />
+        </mxCell>
+
+        <!-- Partition / Bulkhead (dashed line) -->
+        <mxCell id="partition-line" value="" style="line;strokeWidth=2;html=1;strokeColor=#5D6D7E;dashed=1;dashPattern=8 4;" vertex="1" parent="1">
+          <mxGeometry x="280" y="200" width="702" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="partition-label" value="BULKHEAD / PARTITION  (optional insulated divider)" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;fontColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="381" y="180" width="500" height="20" as="geometry" />
+        </mxCell>
+
+        <!-- Van Floor Fill -->
+        <mxCell id="floor-fill" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FDFEFE;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="280" y="210" width="702" height="1550" as="geometry" />
+        </mxCell>
+
+        <!-- Left Wall (Driver Side / Port) -->
+        <mxCell id="left-wall" value="" style="line;strokeWidth=7;html=1;strokeColor=#1C2833;rotation=0;" vertex="1" parent="1">
+          <mxGeometry x="277" y="210" width="3" height="1550" as="geometry" />
+        </mxCell>
+
+        <!-- Right Wall (Passenger Side / Starboard) -->
+        <mxCell id="right-wall" value="" style="line;strokeWidth=7;html=1;strokeColor=#1C2833;rotation=0;" vertex="1" parent="1">
+          <mxGeometry x="982" y="210" width="3" height="1550" as="geometry" />
+        </mxCell>
+
+        <!-- Rear Wall -->
+        <mxCell id="rear-wall" value="" style="line;strokeWidth=7;html=1;strokeColor=#1C2833;" vertex="1" parent="1">
+          <mxGeometry x="280" y="1760" width="702" height="3" as="geometry" />
+        </mxCell>
+
+        <!-- Windows - Left Side (Driver/Port) -->
+        <mxCell id="window-left-1" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#85C1E9;strokeColor=#2471A3;strokeWidth=2;opacity=95;" vertex="1" parent="1">
+          <mxGeometry x="268" y="290" width="16" height="300" as="geometry" />
+        </mxCell>
+        <mxCell id="window-left-2" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#85C1E9;strokeColor=#2471A3;strokeWidth=2;opacity=95;" vertex="1" parent="1">
+          <mxGeometry x="268" y="620" width="16" height="320" as="geometry" />
+        </mxCell>
+        <mxCell id="window-left-3" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#85C1E9;strokeColor=#2471A3;strokeWidth=2;opacity=95;" vertex="1" parent="1">
+          <mxGeometry x="268" y="1170" width="16" height="300" as="geometry" />
+        </mxCell>
+        <mxCell id="window-left-frost-label" value="WIN&#xa;(frost)" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="200" y="730" width="60" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- Windows - Right Side (Passenger/Starboard) -->
+        <mxCell id="window-right-1" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#85C1E9;strokeColor=#2471A3;strokeWidth=2;opacity=95;" vertex="1" parent="1">
+          <mxGeometry x="988" y="730" width="16" height="300" as="geometry" />
+        </mxCell>
+        <mxCell id="window-right-2" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#85C1E9;strokeColor=#2471A3;strokeWidth=2;opacity=95;" vertex="1" parent="1">
+          <mxGeometry x="988" y="1170" width="16" height="300" as="geometry" />
+        </mxCell>
+        <mxCell id="window-right-frost-label" value="WIN&#xa;(frost)" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="1012" y="730" width="60" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- Sliding Door (Passenger Side) - DASHED -->
+        <mxCell id="sliding-door" value="" style="line;strokeWidth=8;html=1;strokeColor=#2471A3;dashed=1;dashPattern=12 8;" vertex="1" parent="1">
+          <mxGeometry x="982" y="210" width="3" height="510" as="geometry" />
+        </mxCell>
+        <mxCell id="sliding-door-label" value="SLIDING&#xa;DOOR" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="1002" y="440" width="80" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- Rear Doors Label -->
+        <mxCell id="rear-doors-label" value="◄   REAR BARN DOORS  (2× windows each leaf)   ►" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=13;fontStyle=1;fontColor=#1C2833;" vertex="1" parent="1">
+          <mxGeometry x="381" y="1780" width="500" height="30" as="geometry" />
+        </mxCell>
+
+        <!-- Wheel Wells with Hatch Pattern -->
+        <mxCell id="wheel-well-left" value="WW" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#95A5A6;strokeColor=#1C2833;strokeWidth=2;fontStyle=1;fontSize=14;fillStyle=hatch;opacity=75;" vertex="1" parent="1">
+          <mxGeometry x="280" y="1000" width="80" height="350" as="geometry" />
+        </mxCell>
+        <mxCell id="wheel-well-right" value="WW" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#95A5A6;strokeColor=#1C2833;strokeWidth=2;fontStyle=1;fontSize=14;fillStyle=hatch;opacity=75;" vertex="1" parent="1">
+          <mxGeometry x="902" y="1000" width="80" height="350" as="geometry" />
+        </mxCell>
+
+        <!-- Zone 1: Entrance Lounge / Sofa -->
+        <mxCell id="zone1-bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFF8EE;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="280" y="160" width="702" height="330" as="geometry" />
+        </mxCell>
+        <mxCell id="sofa" value="FOLD UP&#xa;SOFA BED&#xa;33&quot;L × 8&quot;D" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#D2A679;strokeColor=#1C2833;strokeWidth=2;fontStyle=1;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="345" y="160" width="80" height="330" as="geometry" />
+        </mxCell>
+        <mxCell id="zone1-label" value="ZONE 1 – ENTRANCE LOUNGE&#xa;33&quot;W × 20&quot;D when deployed" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=1;fontSize=20;" vertex="1" parent="1">
+          <mxGeometry x="431" y="180" width="500" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Zone 2: Hideaway Counter Top / Wet Bath -->
+        <mxCell id="zone2-bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#D6EAF8;strokeColor=#1A5276;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="280" y="490" width="240" height="510" as="geometry" />
+        </mxCell>
+        <mxCell id="shower" value="SHOWER" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#AED6F1;strokeColor=#1A5276;strokeWidth=1;fontSize=14;fillStyle=dots;" vertex="1" parent="1">
+          <mxGeometry x="280" y="490" width="240" height="280" as="geometry" />
+        </mxCell>
+        <mxCell id="shower-drain" value="X" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=12;fontColor=#1A5276;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="385" y="540" width="30" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="toilet" value="TOILET" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#D5D8DC;strokeColor=#1A5276;strokeWidth=2;fontSize=16;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="300" y="800" width="160" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="zone2-label" value="ZONE 2 – HIDEAWAY COUNTER TOP&#xa;24&quot;W × 51&quot;L" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=1;fontSize=20;" vertex="1" parent="1">
+          <mxGeometry x="280" y="520" width="240" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Zone 3: Galley Kitchen -->
+        <mxCell id="zone3-bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FDEBD0;strokeColor=#784212;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="742" y="490" width="240" height="510" as="geometry" />
+        </mxCell>
+        <mxCell id="fridge" value="FRIDGE" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#5DADE2;strokeColor=#784212;strokeWidth=1;fontSize=16;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="762" y="490" width="158" height="179" as="geometry" />
+        </mxCell>
+        <mxCell id="sink" value="SINK" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#85C1E9;strokeColor=#784212;strokeWidth=1;fontSize=16;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="762" y="689" width="150" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="counter" value="COUNTER" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#C8B89A;strokeColor=#784212;strokeWidth=1;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="762" y="839" width="200" height="161" as="geometry" />
+        </mxCell>
+        <mxCell id="zone3-label" value="ZONE 3 – GALLEY&#xa;24&quot;W × 51&quot;L" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=1;fontSize=20;" vertex="1" parent="1">
+          <mxGeometry x="742" y="520" width="240" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Zone 4: Living Aisle -->
+        <mxCell id="zone4-label" value="ZONE 4 – LIVING AISLE&#xa;22.2&quot;W × 51&quot;L" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=1;fontSize=20;" vertex="1" parent="1">
+          <mxGeometry x="520" y="710" width="222" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- Zone 5: Entertainment -->
+        <mxCell id="zone5-bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="280" y="1000" width="702" height="350" as="geometry" />
+        </mxCell>
+        <mxCell id="sofa-left" value="SOFA&#xa;18&quot;W × 35&quot;L" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#D2A679;strokeColor=#1C2833;strokeWidth=2;fontStyle=1;fontSize=15;" vertex="1" parent="1">
+          <mxGeometry x="280" y="1000" width="180" height="350" as="geometry" />
+        </mxCell>
+        <mxCell id="sofa-right" value="SOFA&#xa;18&quot;W × 35&quot;L" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#D2A679;strokeColor=#1C2833;strokeWidth=2;fontStyle=1;fontSize=15;" vertex="1" parent="1">
+          <mxGeometry x="802" y="1000" width="180" height="350" as="geometry" />
+        </mxCell>
+        <mxCell id="table" value="TABLE&#xa;28&quot;W × 35&quot;D" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#D3D3D3;strokeColor=#1C2833;strokeWidth=2;fontSize=15;" vertex="1" parent="1">
+          <mxGeometry x="491" y="1000" width="280" height="350" as="geometry" />
+        </mxCell>
+        <mxCell id="zone5-label" value="ZONE 5 – ENTERTAINMENT&#xa;34.2&quot;W × 35&quot;L" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=1;fontSize=20;" vertex="1" parent="1">
+          <mxGeometry x="431" y="1030" width="500" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Zone 6: Bed Platform -->
+        <mxCell id="zone6-bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#D5F5E3;strokeColor=#1E8449;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="280" y="1350" width="702" height="410" as="geometry" />
+        </mxCell>
+        <mxCell id="water-tank" value="WATER" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#3498DB;strokeColor=#1E8449;strokeWidth=1;fontSize=15;fontColor=#1A5276;opacity=30;" vertex="1" parent="1">
+          <mxGeometry x="280" y="1350" width="280" height="220" as="geometry" />
+        </mxCell>
+        <mxCell id="power" value="POWER" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F39C12;strokeColor=#1E8449;strokeWidth=1;fontSize=15;fontColor=#784212;opacity=30;" vertex="1" parent="1">
+          <mxGeometry x="702" y="1350" width="280" height="220" as="geometry" />
+        </mxCell>
+        <mxCell id="mattress" value="MATTRESS&#xa;60&quot;W × 40&quot;D" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#A9DFBF;strokeColor=#1E8449;strokeWidth=2;fontSize=17;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="331" y="1360" width="600" height="400" as="geometry" />
+        </mxCell>
+        <mxCell id="zone6-label" value="ZONE 6 – BED PLATFORM&#xa;70&quot;W × 41&quot;D at 28&quot;H" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=1;fontSize=20;" vertex="1" parent="1">
+          <mxGeometry x="431" y="1650" width="500" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Title -->
+        <mxCell id="title" value="FORD TRANSIT 148″ ELWB HIGH ROOF  ·  VAN BUILD FLOOR PLAN  ·  TOP-DOWN VIEW" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=1;fontSize=22;fontColor=#1C2833;" vertex="1" parent="1">
+          <mxGeometry x="281" y="5" width="700" height="35" as="geometry" />
+        </mxCell>
+        <mxCell id="subtitle" value="Scale  1 : 24  (½&quot; = 1′–0&quot;)   ·   All dimensions in inches   ·   February 20, 2026" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;fontColor=#555555;" vertex="1" parent="1">
+          <mxGeometry x="281" y="30" width="700" height="20" as="geometry" />
+        </mxCell>
+
+        <!-- Dimensions - Top -->
+        <mxCell id="dim-width" value="70.2&quot;  (5′–10&quot;)  Interior Width" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=18;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="431" y="1810" width="400" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- Dimensions - Right -->
+        <mxCell id="dim-length" value="155.0&quot;  (12′–11&quot;)  Cargo Length" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;rotation=270;fontSize=18;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="1032" y="880" width="200" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- Measurements - Left side -->
+        <mxCell id="dim-0" value="0&quot;" style="text;html=1;align=right;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;fontStyle=1;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="190" y="195" width="80" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="dim-28" value="28&quot;" style="text;html=1;align=right;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;fontStyle=1;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="190" y="475" width="80" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="dim-79" value="79&quot;" style="text;html=1;align=right;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;fontStyle=1;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="190" y="985" width="80" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="dim-114" value="114&quot;" style="text;html=1;align=right;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;fontStyle=1;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="190" y="1335" width="80" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="dim-155" value="155&quot;" style="text;html=1;align=right;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;fontStyle=1;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="190" y="1755" width="80" height="30" as="geometry" />
+        </mxCell>
+
+        <!-- Measurements - Right side -->
+        <mxCell id="zone-z1" value="Z1" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;fontStyle=1;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="1002" y="310" width="40" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="zone-z24" value="Z2-4" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;fontStyle=1;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="1002" y="710" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="zone-z5" value="Z5" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;fontStyle=1;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="1002" y="1160" width="40" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="zone-z6" value="Z6" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;fontStyle=1;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="1002" y="1540" width="40" height="30" as="geometry" />
+        </mxCell>
+
+        <!-- Interior measurements -->
+        <mxCell id="dim-bath" value="24&quot; bath" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="280" y="430" width="240" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="dim-galley" value="24&quot; galley" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="742" y="430" width="240" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="dim-wheelwells" value="52&quot; wheel wells" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="360" y="940" width="542" height="30" as="geometry" />
+        </mxCell>
+
+        <!-- Legend -->
+        <mxCell id="legend-bg" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FAFAFA;strokeColor=#666666;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="1100" y="60" width="180" height="260" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-title" value="LEGEND" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=1;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="1100" y="70" width="180" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-sofa" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#D2A679;strokeColor=#666666;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="1110" y="110" width="30" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-sofa-text" value="Sofa bed (Z1)" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1150" y="110" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-bath" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#D6EAF8;strokeColor=#666666;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="1110" y="145" width="30" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-bath-text" value="Wet bath (Z2)" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1150" y="145" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-galley" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FDEBD0;strokeColor=#666666;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="1110" y="180" width="30" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-galley-text" value="Galley (Z3)" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1150" y="180" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-bed" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#D5F5E3;strokeColor=#666666;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="1110" y="215" width="30" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-bed-text" value="Bed (Z6)" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1150" y="215" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-window" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#85C1E9;strokeColor=#666666;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="1110" y="250" width="30" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-window-text" value="Window" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1150" y="250" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-wheelwell" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#95A5A6;strokeColor=#666666;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="1110" y="285" width="30" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-wheelwell-text" value="Wheel well" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1150" y="285" width="120" height="30" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

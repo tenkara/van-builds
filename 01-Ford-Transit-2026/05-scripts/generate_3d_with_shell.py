@@ -36,14 +36,18 @@ os.makedirs(OUT_DIR, exist_ok=True)
 # INTERIOR LAYOUT DIMENSIONS  (all in inches)
 # ═════════════════════════════════════════════════════════════════════════
 
-CL = 172.2;  CW = 70.2;  CH = 81.5        # cargo interior
+CL = 155.0;  CW = 70.2;  CH = 81.5        # cargo interior - CORRECTED (usable length measured)
 
-# Wheel wells - updated to match dimension-verification-checklist.md
-WW_W = 8.0;  WW_Y0 = 68.0;  WW_Y1 = 103.0;  WW_H = 11.0
+# Wheel wells - CORRECTED per user measurements
+WW_W = 8.0;  WW_Y0 = 79.0;  WW_Y1 = 114.0;  WW_H = 11.0
 
 # Zone boundaries (Y from front partition → rear)
-Z1  = (0,   28);   Z5  = (28,  70)
-Z34 = (70, 114);   ZTR = (114, 130);  Z2 = (130, 172.2)
+Z1  = (-5.0, 28.0)   # FENTON sofa (extends into cab)
+Z34 = (28.0, 79.0)   # Galley + Wet bath
+Z5  = (79.0, 114.0)  # Clear aisle
+Z6  = (79.0, 114.0)  # Entertainment area (over wheel wells)
+ZTR = (114.0, 114.0) # Transition eliminated
+Z2  = (114.0, 155.0) # Bed platform
 
 # Zone 1: forward-facing sofa bed
 SO_W, SO_D, SO_SH, SO_BH = 48, 24, 16, 18

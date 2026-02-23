@@ -32,65 +32,69 @@ DPI = 200          # 200 dpi → good screen + print quality without huge files
 # DIMENSIONS  (all in inches – real world)
 # ═════════════════════════════════════════════════════════════════════════════
 
-# Interior cargo envelope
-CL   = 172.2    # length  partition → rear doors
-CW   = 70.2     # width   port wall → starboard wall
+# Interior cargo envelope - CORRECTED per user measurements
+CL   = 155.0    # USABLE cargo length  partition → rear door threshold (measured)
+CW   = 70.2     # width   port wall → starboard wall (at beltline)
 CH   = 81.5     # height  floor → ceiling
 
 # Cab stub shown above partition in plan view
 CAB_D = 32.0
 
-# Wheel wells (updated to match dimension-verification-checklist.md)
+# Wheel wells - CORRECTED per user measurements
 WW_CLR  = 52.0                  # clear between wheel wells
 WW_W    = 8.0                   # 8″ protrusion each side
-WW_Y0   = 68.0                  # starts  68″ from partition
-WW_Y1   = 103.0                 # ends   103″ from partition
+WW_Y0   = 79.0                  # starts  79″ from partition (155 - 41 - 35)
+WW_Y1   = 114.0                 # ends   114″ from partition (155 - 41)
 WW_H    = 11.0                  # height from floor
 
-# Zone boundaries  (Y from front partition, 0 → 172.2)
-Z1  = ( 0.0,  28.0)   # Forward-facing sofa bed
-Z5  = (28.0,  70.0)   # Dining / living aisle
-Z34 = (70.0, 114.0)   # Wet bath (port) + Galley kitchen (stbd)
-ZTR = (114.0,130.0)   # Transition / access
-Z2  = (130.0,172.2)   # East-west bed platform
+# Zone boundaries  (Y from front partition, 0 → 155.0)
+Z1  = (-5.0,  28.0)   # FENTON FDFAAP flip-up sofa (driver side) - 33" long, extends into cab
+Z34 = (28.0,  79.0)   # Galley (passenger) + Wet bath (driver) - BEFORE wheel wells
+Z5  = (79.0, 114.0)   # Clear living aisle (between galley/bath and wheel wells)
+Z6  = (79.0, 114.0)   # Entertainment/dining area (sofas over wheel wells, sliding table)
+ZTR = (114.0,114.0)   # Transition ELIMINATED to maximize bed depth
+Z2  = (114.0,155.0)   # East-west bed platform (pushed to rear) with sliding table
 
-# ── Zone 1: Forward-facing sofa ───────────────────────────────────────────
-SO_W  = 48.0
-SO_D  = 24.0
-SO_X  = (CW - SO_W) / 2    # centred → 11.1″ from each wall
-SO_SH = 16.0                # seat height
-SO_BH = 18.0                # backrest height
-SO_TH = SO_SH + SO_BH      # 34″ total
+# ── Zone 1: FENTON FDFAAP Flip-up Sofa (driver side wall) ────────────────
+SO_W  = 33.0                # sofa width (33" backrest height when folded) - runs N-S along wall
+SO_D  = 8.0                 # sofa depth when FOLDED UP (estimated compact)
+SO_DEPLOYED_D = 20.0        # seat base depth when deployed (per specs)
+SO_X  = 6.5                 # 6.5" clearance from driver wall per FENTON FDFAAP specs
+SO_Y  = -5.0                # starts 5" into cab area (before partition at Y=0)
+SO_SH = 18.0                # seat height (flip-up design)
+SO_BH = 33.0                # backrest height (32.75" rounded to 33")
+SO_TH = SO_SH + SO_BH       # 51″ total when deployed
 
-# ── Zone 3: Wet bath  (port / left  X = 0 … 26) ──────────────────────────
-BA_W  = 26.0
-BA_Y0 = Z34[0]
-BA_L  = Z34[1] - Z34[0]    # 44″
-TO_W, TO_D = 16.0, 16.0    # toilet
-TO_X  = 0.0
-TO_Y  = BA_Y0 + BA_L - TO_D   # rear of bath zone
-SH_W  = BA_W                   # shower width
-SH_D  = BA_L - TO_D            # shower depth
-SH_X, SH_Y = 0.0, BA_Y0
+# ── Zone 3: Wet bath  (port / driver side) - BEFORE wheel wells ────────────────
+BA_W  = 24.0                   # width (wet bath area)
+BA_X0 = 0.0                    # starts at driver wall
+BA_Y0 = Z34[0]                 # starts at Y=28"
+BA_L  = Z34[1] - Z34[0]        # 51″ length (28-79, BEFORE wheel wells)
+TO_W, TO_D = 16.0, 16.0        # toilet (inside wet bath zone)
+TO_X  = 2.0                    # 2" from driver wall
+SH_W  = 24.0                   # shower width 24"
+SH_D  = 28.0                   # shower depth (Y=28-56)
+SH_X, SH_Y = BA_X0, BA_Y0      # shower starts at bath zone
+TO_Y  = SH_Y + SH_D + 2.0      # positioned at Y=58-74 (aft of shower footprint, inside Zone 3)
 
-# ── Zone 4: Galley kitchen  (stbd / right  X = 48 … 70.2) ───────────────
-GA_D   = 22.0
-GA_X0  = CW - GA_D             # 48.2″
-GA_Y0  = Z34[0]
-GA_L   = Z34[1] - Z34[0]      # 44″
-FR_W, FR_D = 24.0, 20.0        # fridge (front-opening 90 L)
-FR_X, FR_Y = GA_X0, GA_Y0
-SK_W, SK_D = 15.0, 13.0        # sink
-SK_X, SK_Y = CW - SK_W, GA_Y0 + FR_D  # sink positioned at starboard edge, next to fridge
-CT_H = 36.0                    # counter height
+# ── Zone 4: Galley kitchen  (stbd / passenger side) - OPTIMIZED for slim fridge ──
+GA_D   = 24.0                   # counter depth (reduced for SMETA slim fridge)
+GA_X0  = CW - GA_D              # starts at passenger wall (46.2")
+GA_Y0  = Z34[0]                 # starts at Y=28"
+GA_L   = Z34[1] - Z34[0]        # 51″ total length (28-79)
+FR_W, FR_D, FR_H = 15.8, 17.9, 22.0   # SMETA 1.2 cu ft compact fridge
+FR_X, FR_Y = GA_X0 + 2, GA_Y0   # fridge inside counter, 2" from edge (X=48.2, Y=28-45.9)
+SK_W, SK_D = 15.0, 13.0         # sink with cutting board cover
+SK_X, SK_Y = GA_X0 + 2, GA_Y0 + FR_D  # sink after fridge (Y≈45.9-58.9)
+CT_H = 36.0                     # counter height (fridge is 22"H and fits underneath)
 
-# ── Zone 2: Bed platform ─────────────────────────────────────────────────
-BED_Y0 = Z2[0]
-BED_Y1 = Z2[1]
-BED_D  = BED_Y1 - BED_Y0      # 42.2″
-BED_H  = 28.0
+# ── Zone 2: Bed platform - MAXIMIZED depth, pushed to rear ──────────────
+BED_Y0 = Z2[0]                 # Y=114" (right after wheel wells)
+BED_Y1 = Z2[1]                 # Y=155" (rear door)
+BED_D  = BED_Y1 - BED_Y0       # 41″ (155 - 114)
+BED_H  = 28.0                  # optimized for window view, garage access, bed entry
 MAT_W  = 60.0                  # RV-Queen east-west
-MAT_D  = 40.0                  # north-south (custom fit)
+MAT_D  = 40.0                  # north-south FULL SIZE (fits in 41")
 MAT_X  = (CW - MAT_W) / 2
 MAT_Y  = BED_Y0 + (BED_D - MAT_D) / 2
 
@@ -98,24 +102,31 @@ MAT_Y  = BED_Y0 + (BED_D - MAT_D) / 2
 WT_W, WT_D = 28.0, 22.0        # water tank (port side)
 ECO_W, ECO_D = 28.0, 22.0     # EcoFlow batteries (stbd side)
 
-# Lagun table (deployed, in aisle)
-TBL_W, TBL_D = 28.0, 20.0
-TBL_X = BA_W + 2
-TBL_Y = Z5[0] + 12.0
+# ── Zone 6: Entertainment/Dining area (over wheel wells) ─────────────────
+# Sofas on both sides over wheel wells
+SOFA6_W = 18.0                 # sofa width (depth from wall)
+SOFA6_L = 35.0                 # sofa length (over wheel well, 35" long)
+SOFA6_Y0 = WW_Y0               # starts at wheel well Y=79"
+SOFA6_Y1 = WW_Y1               # ends at wheel well Y=114"
+# Driver side sofa
+SOFA6_PORT_X = 0.0
+# Passenger side sofa
+SOFA6_STBD_X = CW - SOFA6_W
+# Sliding table from bed base
+TABLE_W = 28.0                 # table width
+TABLE_D = 35.0                 # table depth when extended (fits in Zone 6)
+TABLE_X = (CW - TABLE_W) / 2   # centered
+TABLE_Y = Z2[0]                # slides from bed base at Y=114"
+TABLE_Y0 = Z6[0]               # table starts at Zone 6 (Y=79")
 
-# Windows (Y0, Y1 per side along port/stbd wall) - updated to match checklist
-P_WINS = [(8, 38), (50, 82), (96, 132)]     # Driver side (port/left) - 3 windows
-S_WINS = [(55, 85), (96, 132)]               # Passenger side (stbd/right) - 2 windows
+# Windows (Y0, Y1 per side along port/stbd wall) - corrected for 155" cargo length
+P_WINS = [(8, 38), (50, 82), (96, 126)]      # Driver side (port/left) - 3 windows
+S_WINS = [(55, 85), (96, 126)]                # Passenger side (stbd/right) - 2 windows (sliding door at front)
 WIN_SILL = 36.0
 WIN_H    = 22.0
 
 # Sliding door (passenger/stbd side, plan view) - updated to match checklist
 SL_Y0, SL_Y1 = 0, 51  # Starts at partition, 51" wide
-
-# Roof fans  (Y centre)
-FAN_Y  = [49.0, 92.0]
-FAN_R  = 7.0       # 14″ fan radius
-RFAN_W = 14.0
 
 # ═════════════════════════════════════════════════════════════════════════════
 # COLOUR PALETTE
@@ -124,11 +135,11 @@ C = {
     "wall":       "#1C2833",
     "floor":      "#FDFEFE",
     "cab":        "#E8ECEF",
-    "cab_seat":   "#C8B89A",
+    "cab_seat":   "#D2A679",
     "partition":  "#5D6D7E",
-    "sofa":       "#8B6914",
-    "sofa_cush":  "#C9A84C",
-    "backrest":   "#A07840",
+    "sofa":       "#D2A679",
+    "sofa_cush":  "#E8C4A0",
+    "backrest":   "#C8A882",
     "belt":       "#2C3E50",
     "bath":       "#1A5276",
     "bath_bg":    "#D6EAF8",
@@ -148,7 +159,7 @@ C = {
     "window":     "#85C1E9",
     "win_frame":  "#2471A3",
     "fan":        "#E59866",
-    "table":      "#8E44AD",
+    "table":      "#D3D3D3",
     "tbl_bg":     "#E8DAEF",
     "water":      "#3498DB",
     "elec":       "#F39C12",
@@ -184,7 +195,7 @@ def LB(ax, x, y, txt, fs=6.5, c=None, ha="center", va="center",
             bbox=bbox, zorder=zorder)
 
 
-def DH(ax, x0, x1, y, txt, yo=5.0, fs=5.0):
+def DH(ax, x0, x1, y, txt, yo=5.0, fs=6.5):
     """Horizontal dimension line with arrows + label."""
     ax.plot([x0, x0], [y, y + yo * 0.9], color=C["dim"], lw=0.5, zorder=6)
     ax.plot([x1, x1], [y, y + yo * 0.9], color=C["dim"], lw=0.5, zorder=6)
@@ -196,7 +207,7 @@ def DH(ax, x0, x1, y, txt, yo=5.0, fs=5.0):
             bbox=dict(fc="white", ec="none", alpha=0.8, pad=0.1))
 
 
-def DV(ax, x, y0, y1, txt, xo=5.0, fs=5.0):
+def DV(ax, x, y0, y1, txt, xo=5.0, fs=6.5):
     """Vertical dimension line with arrows + label."""
     ax.plot([x, x + xo * 0.9], [y0, y0], color=C["dim"], lw=0.5, zorder=6)
     ax.plot([x, x + xo * 0.9], [y1, y1], color=C["dim"], lw=0.5, zorder=6)
@@ -218,15 +229,15 @@ def draw_floor_plan():
     fig.patch.set_facecolor("#EAECEE")
     ax.set_facecolor("#EAECEE")
     ax.set_xlim(-MX, CW + MX)
-    ax.set_ylim(-CAB_D - MY, CL + MY)
+    ax.set_ylim(CL + MY, -CAB_D - MY)  # INVERTED: front (Y=0) at top, rear (Y=155) at bottom
     ax.set_aspect("equal")
     ax.axis("off")
 
     # ── title ────────────────────────────────────────────────────────────────
-    ax.text(CW / 2, CL + MY * 0.80,
+    ax.text(CW / 2, -CAB_D - MY * 0.70,
             "FORD TRANSIT 148″ ELWB HIGH ROOF  ·  VAN BUILD FLOOR PLAN  ·  TOP-DOWN VIEW",
             fontsize=11, fontweight="bold", ha="center", color=C["wall"], zorder=12)
-    ax.text(CW / 2, CL + MY * 0.55,
+    ax.text(CW / 2, -CAB_D - MY * 0.45,
             "Scale  1 : 24  (½\" = 1′–0\")   ·   All dimensions in inches   ·   February 20, 2026",
             fontsize=8, ha="center", color="#555555", zorder=12)
 
@@ -239,21 +250,18 @@ def draw_floor_plan():
     # ── floor fill ───────────────────────────────────────────────────────────
     R(ax, 0, 0, CW, CL, C["floor"], ec="none", zorder=1)
 
-    # ── cab stub ─────────────────────────────────────────────────────────────
-    R(ax, 0, -CAB_D, CW, CAB_D, C["cab"], ec=C["wall"], lw=1.2, zorder=2)
-    # dash panel
-    R(ax, 0, -CAB_D + 26, CW, 4, "#85929E", ec=C["wall"], lw=0.6, zorder=3)
-    # driver seat (port)
+    # ── cab (simple representation) ──────────────────────────────────────────
+    # driver seat (port/left)
     R(ax, 5, -CAB_D + 6, 18, 18, C["cab_seat"], ec=C["wall"], lw=0.6, zorder=3)
     LB(ax, 14, -CAB_D + 15, "DRIVER\nSEAT", fs=5.5, bold=True)
-    # passenger seat (stbd)
+    # passenger seat (stbd/right)
     R(ax, CW - 23, -CAB_D + 6, 18, 18, C["cab_seat"], ec=C["wall"], lw=0.6, zorder=3)
     LB(ax, CW - 14, -CAB_D + 15, "PASS.\nSEAT", fs=5.5, bold=True)
-    LB(ax, CW / 2, -CAB_D / 2, "CAB  (factory – not converted)", fs=6, bg=False, c="#666666")
+    LB(ax, CW / 2, -CAB_D + 26, "CAB  (factory – not converted)", fs=6, bg=False, c="#666666")
 
-    # ── partition ────────────────────────────────────────────────────────────
-    R(ax, 0, -2, CW, 2.5, C["partition"], ec=C["wall"], lw=1.0, zorder=5)
-    LB(ax, CW / 2, -0.8, "BULKHEAD / PARTITION  (optional insulated divider)", fs=5.5)
+    # ── partition (simplified to dotted line) ────────────────────────────────
+    ax.plot([0, CW], [0, 0], color=C["partition"], lw=1.5, linestyle="--", zorder=5, dashes=(5, 3))
+    LB(ax, CW / 2, -4, "BULKHEAD / PARTITION  (optional insulated divider)", fs=5.5, c="#666666")
 
     # ── exterior walls ───────────────────────────────────────────────────────
     ax.plot([0, 0],   [0, CL], color=C["wall"], lw=3.5, zorder=7, solid_capstyle="round")
@@ -273,11 +281,11 @@ def draw_floor_plan():
     LB(ax, -8, (Z34[0] + Z34[1]) / 2 + 5, "WIN\n(frost)", fs=4.5, ha="center")
     LB(ax, CW + 8, (Z34[0] + Z34[1]) / 2 + 5, "WIN\n(frost)", fs=4.5, ha="center")
 
-    # ── sliding door port ────────────────────────────────────────────────────
-    ax.plot([0, 0], [SL_Y0, SL_Y1], color=C["window"], lw=4, zorder=7)
-    ax.plot([0, 0], [SL_Y0, SL_Y1], color=C["win_frame"], lw=1.2, zorder=8,
+    # ── sliding door (passenger/starboard side) ──────────────────────────────
+    ax.plot([CW, CW], [SL_Y0, SL_Y1], color=C["window"], lw=4, zorder=7)
+    ax.plot([CW, CW], [SL_Y0, SL_Y1], color=C["win_frame"], lw=1.2, zorder=8,
             linestyle="--")
-    LB(ax, -10, (SL_Y0 + SL_Y1) / 2, "SLIDING\nDOOR", fs=5, ha="center")
+    LB(ax, CW + 10, (SL_Y0 + SL_Y1) / 2, "SLIDING\nDOOR", fs=5, ha="center")
 
     # rear doors label
     ax.text(CW / 2, CL + 8, "◄   REAR BARN DOORS  (2× windows each leaf)   ►",
@@ -291,39 +299,54 @@ def draw_floor_plan():
     LB(ax, WW_W / 2,      (WW_Y0 + WW_Y1) / 2, "WW", fs=5, bg=False, c="#555555")
     LB(ax, CW - WW_W / 2, (WW_Y0 + WW_Y1) / 2, "WW", fs=5, bg=False, c="#555555")
 
-    # ═══ ZONE 1: SOFA BED ════════════════════════════════════════════════════
-    R(ax, 0, Z1[0], CW, Z1[1] - Z1[0], "#FFF8EE", ec="none", zorder=1)
-    # sofa base
-    R(ax, SO_X, Z1[0], SO_W, SO_D, C["sofa"], ec=C["wall"], lw=1.1, zorder=4)
-    # seat cushion
-    R(ax, SO_X + 1.5, Z1[0] + 1.5, SO_W - 3, SO_D * 0.62,
-      C["sofa_cush"], ec=C["sofa"], lw=0.5, zorder=5)
-    # backrest (toward partition – front of van)
-    R(ax, SO_X + 1, Z1[0] + SO_D - 4.5, SO_W - 2, 4, C["backrest"],
-      ec=C["sofa"], lw=0.5, zorder=5)
-    # seat-belt anchor points
-    for bx in [SO_X + 7, SO_X + SO_W / 2, SO_X + SO_W - 7]:
-        ax.plot(bx, Z1[0] + 2.5, "o", ms=4, color=C["belt"], zorder=7)
-    LB(ax, SO_X + SO_W / 2, Z1[0] + SO_D / 2,
-       "ZONE 1  –  FORWARD-FACING SOFA BED\n48\"W × 24\"D × 34\"H  ·  FMVSS 207/210 certified\n(3 × 3-pt seat belts  ·  converts to 72\" bed)",
-       fs=5.5, bold=True)
-    # forward arrow
-    ax.annotate("", xy=(CW / 2, -8), xytext=(CW / 2, Z1[0] + 3),
-                arrowprops=dict(arrowstyle="->", color=C["arrow"], lw=1.8), zorder=8)
-    LB(ax, CW / 2, -12, "↑  Faces FRONT  (Forward-facing)", fs=6, c=C["arrow"], bold=True)
+    # ═══ ZONE 1: FENTON FDFAAP FLIP-UP SOFA ══════════════════════════════════
+    # Zone background (extends into cab from Y=-5 to Y=28)
+    R(ax, 0, -5, CW, 33, "#FFF8EE", ec="none", zorder=1)
+    # mounting base plate along driver wall (folded up, 8" deep) - starts at Y=-5
+    R(ax, SO_X, -5, SO_D, SO_W, C["sofa"], ec=C["wall"], lw=1.1, zorder=4)
+    # folded-up seat (vertical/compact along wall) - starts at Y=-5
+    R(ax, SO_X + 1.5, -5 + 1.5, 5, SO_W - 3,
+      C["sofa_cush"], ec=C["sofa"], lw=0.8, alpha=0.9, zorder=5)
+    # hatch pattern to show folded position
+    R(ax, SO_X + 1.5, -5 + 1.5, 5, SO_W - 3,
+      "none", ec=C["sofa"], lw=0.5, hatch="///", alpha=0.5, zorder=6)
+    LB(ax, SO_X + SO_D / 2, -5 + SO_W / 2,
+       "FENTON FDFAAP\nFLIP-UP SOFA\n(FOLDED UP)\n33\"L × 8\"D", fs=6, bold=True)
+    LB(ax, CW / 2, Z1[1] - 6,
+       "ZONE 1  –  Driver Side Wall  (extends 5\" into cab)\n(33\"W × 20\"D when deployed  ·  Toilet slides under)",
+       fs=7, bold=True)
 
-    # ═══ ZONE 5: AISLE ═══════════════════════════════════════════════════════
-    R(ax, 0, Z5[0], CW, Z5[1] - Z5[0], C["aisle"], ec="none", zorder=1)
-    # Lagun table deployed
-    R(ax, TBL_X, TBL_Y, TBL_W, TBL_D, C["tbl_bg"], ec=C["table"],
-      lw=0.9, zorder=4, hatch="..")
-    LB(ax, TBL_X + TBL_W / 2, TBL_Y + TBL_D / 2,
-       "LAGUN\nTABLE\n(fold-away)", fs=5)
-    LB(ax, CW / 2, (Z5[0] + Z5[1]) / 2 + 5,
-       "ZONE 5  –  DINING / LIVING AISLE\n24–26\" clear passage", fs=5.5)
+    # ═══ ZONE 6: ENTERTAINMENT/DINING AREA (over wheel wells) ════════════════
+    # Background - clean white
+    R(ax, 0, Z6[0], CW, Z6[1] - Z6[0], "#FFFFFF", ec="none", zorder=1)
+    # Sofas on both sides
+    R(ax, SOFA6_PORT_X, SOFA6_Y0, SOFA6_W, SOFA6_L, C["sofa"], ec=C["wall"], lw=1.1, zorder=4)
+    LB(ax, SOFA6_PORT_X + SOFA6_W / 2, SOFA6_Y0 + SOFA6_L / 2,
+       "SOFA\n(over wheel\nwell)", fs=5.5, bold=True)
+    R(ax, SOFA6_STBD_X, SOFA6_Y0, SOFA6_W, SOFA6_L, C["sofa"], ec=C["wall"], lw=1.1, zorder=4)
+    LB(ax, SOFA6_STBD_X + SOFA6_W / 2, SOFA6_Y0 + SOFA6_L / 2,
+       "SOFA\n(over wheel\nwell)", fs=5.5, bold=True)
+    # Sliding table from bed base (stays within Zone 6)
+    R(ax, TABLE_X, TABLE_Y0, TABLE_W, TABLE_D, C["table"], ec=C["wall"],
+      lw=0.9, alpha=0.8, zorder=3)
+    LB(ax, TABLE_X + TABLE_W / 2, TABLE_Y0 + TABLE_D / 2,
+       "SLIDING\nTABLE\n(from bed)", fs=5.5)
+    # Central aisle label in Zone 6
+    aisle_w = SOFA6_STBD_X - (SOFA6_PORT_X + SOFA6_W)
+    LB(ax, CW / 2, (Z6[0] + Z6[1]) / 2,
+       f"ZONE 6  –  ENTERTAINMENT / DINING\n{aisle_w:.0f}\" aisle between sofas  ·  Sliding table", fs=7, bold=True)
 
-    # ═══ ZONE 3: WET BATH ════════════════════════════════════════════════════
-    R(ax, 0, BA_Y0, BA_W, BA_L, C["bath_bg"], ec=C["bath"], lw=1.1, zorder=2)
+    # ═══ ZONE 5: CLEAR LIVING AISLE ══════════════════════════════════════════
+    # Label positioned in the middle aisle between wet bath and galley
+    aisle_x_start = BA_X0 + BA_W
+    aisle_x_end = GA_X0
+    aisle_width = aisle_x_end - aisle_x_start
+    aisle_center_x = (aisle_x_start + aisle_x_end) / 2
+    LB(ax, aisle_center_x, (Z34[0] + Z34[1]) / 2,
+       f"ZONE 5\nCLEAR LIVING\nAISLE\n{aisle_width:.1f}\" wide", fs=7, bold=True)
+
+    # ═══ ZONE 3: WET BATH (DRIVER SIDE) ══════════════════════════════════════
+    R(ax, BA_X0, BA_Y0, BA_W, BA_L, C["bath_bg"], ec=C["bath"], lw=1.1, zorder=2)
     # shower floor
     R(ax, SH_X, SH_Y, SH_W, SH_D, C["shower"], ec=C["bath"],
       lw=0.7, alpha=0.65, hatch="...", zorder=3)
@@ -336,10 +359,10 @@ def draw_floor_plan():
         (TO_X + 2, TO_Y + 2), TO_W - 4, TO_D - 4,
         boxstyle="round,pad=1", fc="#EAEAEA", ec=C["bath"], lw=0.5, zorder=5))
     LB(ax, TO_X + TO_W / 2, TO_Y + TO_D / 2, "TOILET\n(dry flush)", fs=5)
-    LB(ax, BA_W / 2, BA_Y0 + BA_L * 0.75 + 2,
-       "ZONE 3\nHIDEAWAY WET BATH\n26\"W × 44\"L", fs=5.5, bold=True)
+    LB(ax, BA_X0 + BA_W / 2, BA_Y0 + BA_L * 0.75 + 2,
+       "ZONE 3\nHIDEAWAY WET BATH\n24\"W × 51\"L", fs=7, bold=True)
 
-    # ═══ ZONE 4: GALLEY KITCHEN ══════════════════════════════════════════════
+    # ═══ ZONE 4: GALLEY KITCHEN (PASSENGER SIDE) ═════════════════════════════
     R(ax, GA_X0, GA_Y0, GA_D, GA_L, C["galley_bg"], ec=C["galley"], lw=1.1, zorder=2)
     # fridge
     R(ax, FR_X, FR_Y, FR_W, FR_D, C["fridge"], ec=C["galley"], lw=0.7, zorder=4)
@@ -357,7 +380,7 @@ def draw_floor_plan():
     LB(ax, GA_X0 + GA_D / 2, GA_Y0 + FR_D + (GA_L - FR_D) / 2,
        "COUNTER\n& STORAGE", fs=5)
     LB(ax, GA_X0 + GA_D / 2, GA_Y0 + GA_L * 0.85,
-       "ZONE 4\nGALLEY KITCHEN\n22\"D × 44\"L", fs=5.5, bold=True)
+       "ZONE 4\nGALLEY KITCHEN\n24\"D × 51\"L", fs=7, bold=True)
 
     # ═══ TRANSITION ══════════════════════════════════════════════════════════
     R(ax, 0, ZTR[0], CW, ZTR[1] - ZTR[0], C["transition"],
@@ -384,29 +407,19 @@ def draw_floor_plan():
     LB(ax, CW - ECO_W / 2, BED_Y0 + ECO_D / 2, "ECOFLOW\n10 kWh\nbatteries", fs=4.5, c="#784212")
     LB(ax, CW / 2, BED_Y0 + BED_D * 0.82,
        "ZONE 2  –  EAST-WEST BED PLATFORM  (28\" high)\n50+ cu ft under-bed garage  ·  side-panel access",
-       fs=5.5, bold=True)
-
-    # ═══ ROOF FANS (overhead, shown as circles) ══════════════════════════════
-    for fy in FAN_Y:
-        ax.add_patch(mpatches.Circle((CW / 2, fy), FAN_R, fc=C["fan"],
-                                     ec="#CA6F1E", lw=0.9, alpha=0.65, zorder=5))
-        for ang in np.linspace(0, 270, 4):
-            r = np.radians(ang)
-            ax.plot([CW / 2, CW / 2 + FAN_R * 0.8 * np.cos(r)],
-                    [fy,        fy        + FAN_R * 0.8 * np.sin(r)],
-                    color="#CA6F1E", lw=0.8, zorder=6)
-        LB(ax, CW / 2 + FAN_R + 2, fy, "MaxxAir 14×14\"", fs=4.5, ha="left")
+       fs=7, bold=True)
 
     # ═══ DIMENSION LINES ══════════════════════════════════════════════════════
-    DH(ax, 0, CW, CL + 10, f"70.2\"  (5′–10\")  Interior Width", yo=7, fs=5.5)
-    DV(ax, CW + 10, 0, CL, f"172.2\"  (14′–4\")  Cargo Length", xo=9, fs=5.5)
-    DH(ax, SO_X, SO_X + SO_W, -6, "48\" sofa width", yo=4, fs=5)
-    DH(ax, WW_W, CW - WW_W, WW_Y0 - 6, f"{WW_CLR}\"  between wheel wells", yo=4, fs=5)
-    DH(ax, 0, BA_W,  Z34[0] - 6, "26\" bath", yo=4, fs=4.5)
-    DH(ax, GA_X0, CW, Z34[0] - 6, "22\" galley", yo=4, fs=4.5)
+    DH(ax, 0, CW, CL + 10, f"70.2\"  (5′–10\")  Interior Width", yo=7, fs=7)
+    DV(ax, CW + 10, 0, CL, f"155.0\"  (12′–11\")  Usable Cargo Length", xo=9, fs=7)
+    # Sofa dimension along driver wall (length, not width since rotated)
+    # DV(ax, -6, SO_Y, SO_Y + SO_W, "40\" sofa", xo=4, fs=5)
+    DH(ax, WW_W, CW - WW_W, WW_Y0 - 6, f"{WW_CLR}\"  between wheel wells", yo=4, fs=6)
+    DH(ax, 0, BA_W,  Z34[0] - 6, "24\" bath", yo=4, fs=6)
+    DH(ax, GA_X0, CW, Z34[0] - 6, "24\" galley", yo=4, fs=6)
     # zone boundary ticks on left
-    for y, txt in [(Z1[0], "0\""), (Z1[1], "28\""), (Z5[1], "70\""),
-                   (Z34[1], "114\""), (ZTR[1], "130\""), (Z2[1], "172.2\"")]:
+    for y, txt in [(Z1[0], "0\""), (Z1[1], "28\""), (Z34[0], "28\""),
+                   (Z34[1], "79\""), (WW_Y0, "79\""), (WW_Y1, "114\""), (Z2[1], "155\"")]:
         ax.plot([-3, 0], [y, y], color="#AAAAAA", lw=0.6, zorder=4)
         ax.text(-4, y, txt, fontsize=5, ha="right", va="center", color="#666666")
     # right-side zone labels
@@ -418,30 +431,21 @@ def draw_floor_plan():
         ax.text(CW + 3, (y0 + y1) / 2, ztxt, fontsize=5.5, ha="left",
                 va="center", color="#444444", fontweight="bold")
 
-    # ═══ NORTH/FRONT ARROW ════════════════════════════════════════════════════
-    ax.annotate("FRONT  (driving direction  ↑)",
-                xy=(CW / 2, -CAB_D - 3), xytext=(CW / 2, -CAB_D - 14),
-                fontsize=7, ha="center", color=C["arrow"], fontweight="bold",
-                arrowprops=dict(arrowstyle="->", color=C["arrow"], lw=2.0), zorder=10)
 
-    # ═══ LEGEND ════════════════════════════════════════════════════════════════
-    lx, ly = -MX + 1, 8
-    ax.text(lx, ly + 88, "LEGEND", fontsize=7, fontweight="bold", color=C["wall"])
+    # ═══ LEGEND (COMPACT) ═══════════════════════════════════════════════════════
+    lx, ly = CW + MX - 6, -CAB_D - MY + 10
+    ax.text(lx, ly + 36, "LEGEND", fontsize=6, fontweight="bold", color=C["wall"])
     items = [
-        (C["sofa"],      "Forward-facing sofa bed (Zone 1)"),
-        (C["bath_bg"],   "Hideaway wet bath (Zone 3)"),
-        (C["galley_bg"], "Galley kitchen (Zone 4)"),
-        (C["bed_bg"],    "Bed platform (Zone 2)"),
-        (C["mattress"],  "RV-Queen mattress"),
-        (C["window"],    "Window / sliding door"),
-        (C["ww"],        "Wheel well (hatched)"),
-        (C["fan"],       "MaxxAir roof fan (14×14\")"),
-        (C["water"],     "Fresh water tank (under bed)"),
-        (C["elec"],      "EcoFlow 10 kWh batteries"),
+        (C["sofa"],      "Sofa bed (Z1)"),
+        (C["bath_bg"],   "Wet bath (Z3)"),
+        (C["galley_bg"], "Galley (Z4)"),
+        (C["bed_bg"],    "Bed (Z2)"),
+        (C["window"],    "Window"),
+        (C["ww"],        "Wheel well"),
     ]
     for i, (col, txt) in enumerate(items):
-        R(ax, lx, ly + 79 - i * 8.2, 5, 6, col, ec="#666666", lw=0.5, zorder=10)
-        ax.text(lx + 7.5, ly + 82 - i * 8.2, txt, fontsize=5.5,
+        R(ax, lx, ly + 28 - i * 5.5, 4, 4, col, ec="#666666", lw=0.4, zorder=10)
+        ax.text(lx + 5.5, ly + 30 - i * 5.5, txt, fontsize=4.5,
                 va="center", color=C["label_fg"])
 
     plt.tight_layout(pad=0.3)
@@ -569,44 +573,30 @@ def draw_elevation():
     # ── transition ────────────────────────────────────────────────────────────
     LB(ax, (ZTR[0] + ZTR[1]) / 2, 22, "ACCESS", fs=5, bg=False)
 
-    # ── roof fans ─────────────────────────────────────────────────────────────
-    for fy in FAN_Y:
-        R(ax, fy - RFAN_W / 2, CH - 3, RFAN_W, 3, C["fan"],
-          ec="#CA6F1E", lw=0.7, zorder=5)
-        LB(ax, fy, CH - 1.5, "14×14\"\nFan", fs=4, bg=False, c="#784212")
-
     # ── dimension lines ───────────────────────────────────────────────────────
-    DV(ax, CL + 8,  0,  CH,        f"81.5\"  (6′–9½\")  Interior Height", xo=7, fs=5.5)
-    DV(ax, CL + 3,  0,  WIN_SILL,  f"{WIN_SILL}\" sill",                  xo=2.5, fs=4.5)
-    DV(ax, CL + 5,  WIN_SILL, WIN_SILL + WIN_H, f"{WIN_H}\" win",         xo=2.5, fs=4.5)
-    DV(ax, Z1[1] + 3, 0, SO_SH,   f"{SO_SH}\" seat",                     xo=2, fs=4.5)
-    DV(ax, Z1[1] + 6, 0, SO_TH,   f"{SO_TH}\" total",                    xo=2, fs=4.5)
-    DV(ax, Z34[1] + 3, 0, CT_H,   f"{CT_H}\" counter",                   xo=2, fs=4.5)
-    DV(ax, BED_Y1 + 3, 0, BED_H,  f"{BED_H}\" platform",                 xo=2, fs=4.5)
-    DH(ax, Z1[0],   Z1[1],   -11, "28\"",      yo=4)
-    DH(ax, Z5[0],   Z5[1],   -11, "42\"",      yo=4)
-    DH(ax, Z34[0],  Z34[1],  -11, "44\"",      yo=4)
-    DH(ax, ZTR[0],  ZTR[1],  -11, "16\"",      yo=4)
-    DH(ax, Z2[0],   Z2[1],   -11, "42\"",      yo=4)
-    DH(ax, 0, CL, -17, "172.2\"  (14′–4\")  Total Cargo Length", yo=5, fs=5.5)
+    DV(ax, CL + 8,  0,  CH,        f"81.5\"  (6′–9½\")  Interior Height", xo=7, fs=7)
+    DV(ax, CL + 3,  0,  WIN_SILL,  f"{WIN_SILL}\" sill",                  xo=2.5, fs=6)
+    DV(ax, CL + 5,  WIN_SILL, WIN_SILL + WIN_H, f"{WIN_H}\" win",         xo=2.5, fs=6)
+    DV(ax, Z1[1] + 3, 0, SO_SH,   f"{SO_SH}\" seat",                     xo=2, fs=6)
+    DV(ax, Z1[1] + 6, 0, SO_TH,   f"{SO_TH}\" total",                    xo=2, fs=6)
+    DV(ax, Z34[1] + 3, 0, CT_H,   f"{CT_H}\" counter",                   xo=2, fs=6)
+    DV(ax, BED_Y1 + 3, 0, BED_H,  f"{BED_H}\" platform",                 xo=2, fs=6)
+    DH(ax, 0,       Z1[1],   -11, "28\"",      yo=4)
+    DH(ax, Z5[0],   Z5[1],   -11, "35\"",      yo=4)
+    DH(ax, Z34[0],  Z34[1],  -11, "51\"",      yo=4)
+    # DH(ax, ZTR[0],  ZTR[1],  -11, "16\"",      yo=4)  # TRANSITION ELIMINATED
+    DH(ax, Z2[0],   Z2[1],   -11, "41\"",      yo=4)
+    DH(ax, 0, CL, -17, "155\"  (12′–11\")  Usable Cargo Length", yo=5, fs=7)
 
     # ── zone top labels ───────────────────────────────────────────────────────
     for (y0, y1, lbl, col) in [
-        (Z1[0],  Z1[1],  "ZONE 1\nSOFA",   C["sofa"]),
-        (Z5[0],  Z5[1],  "ZONE 5\nAISLE",  "#666666"),
-        (Z34[0], Z34[1], "ZONE 3\nBATH",   C["bath"]),
-        (ZTR[0], ZTR[1], "TRANS.",         "#888888"),
-        (Z2[0],  Z2[1],  "ZONE 2\nBED",    C["bed"]),
+        (Z1[0],  Z1[1],  "Z1\nSOFA",      C["sofa"]),
+        (28.0,   79.0,   "Z3+4\nBATH+GALLEY", "#666666"),
+        (WW_Y0,  WW_Y1,  "WHEEL\nWELLS",  C["ww"]),
+        (Z2[0],  Z2[1],  "Z2\nBED",       C["bed"]),
     ]:
-        LB(ax, (y0 + y1) / 2, CH + 8, lbl, fs=5.5, bold=True, c=col, bg=False)
+        LB(ax, (y0 + y1) / 2, CH + 8, lbl, fs=7, bold=True, c=col, bg=False)
 
-    # ── direction labels ──────────────────────────────────────────────────────
-    ax.annotate("← FRONT  (driving direction)",
-                xy=(0, -12), xytext=(44, -12),
-                fontsize=7, ha="left", color=C["arrow"], fontweight="bold",
-                arrowprops=dict(arrowstyle="->", color=C["arrow"], lw=2.0), zorder=10)
-    ax.text(CL, -12, "REAR DOORS →", fontsize=7, ha="right",
-            color=C["arrow"], fontweight="bold")
 
     plt.tight_layout(pad=0.3)
     return fig
@@ -706,11 +696,6 @@ def draw_3d():
             "BED PLATFORM\n(28\" high)", fontsize=7, color="#82E0AA",
             ha="center", va="bottom", zorder=12)
 
-    # ── roof fans ─────────────────────────────────────────────────────────────
-    for fy in FAN_Y:
-        add3(ax, CW/2-RFAN_W/2, fy-RFAN_W/2, CH-4, RFAN_W, RFAN_W, 4,
-             "#E59866", alpha=0.80)
-
     # ── axis styling ──────────────────────────────────────────────────────────
     ax.set_xlim([0, CW]);   ax.set_xlabel("Width E↔W (in)", fontsize=7,
                                           color="#AAAACC", labelpad=8)
@@ -740,7 +725,6 @@ def draw_3d():
         Patch(fc="#1E6B3A", label="Bed platform (Zone 2)"),
         Patch(fc="#A9DFBF", label="Mattress 60\"×40\""),
         Patch(fc="#95A5A6", label="Wheel wells"),
-        Patch(fc="#E59866", label="MaxxAir roof fans"),
     ]
     ax.legend(handles=legend_els, loc="upper left", fontsize=6,
               framealpha=0.35, facecolor="#1A1A3A", edgecolor="#444466",

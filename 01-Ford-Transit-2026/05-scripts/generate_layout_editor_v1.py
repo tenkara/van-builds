@@ -27,7 +27,7 @@ os.makedirs(OUT_DIR, exist_ok=True)
 # Default layout items  (all values in inches)
 # ═══════════════════════════════════════════════════════════════════════
 
-CL, CW, CH = 172.2, 70.2, 81.5   # cargo interior
+CL, CW, CH = 155.0, 70.2, 81.5   # cargo interior - CORRECTED (usable length measured)
 
 DEFAULT_ITEMS = [
     # Zone 1 – Sofa
@@ -74,18 +74,18 @@ DEFAULT_ITEMS = [
      "x":55.2,"y":90,"z":36, "dx":15,"dy":13,"dz":7,
      "color":"#85C1E9", "opacity":0.85},
 
-    # Zone 2 – Bed
+    # Zone 2 – Bed (updated to start at Y=114 per new layout)
     {"id":"bed_plat",     "name":"Z2 – Bed Platform",     "zone":"Zone 2 – Bed",
-     "x":1,   "y":130,"z":0,  "dx":68.2,"dy":42.2,"dz":28,
+     "x":1,   "y":114,"z":0,  "dx":68.2,"dy":41,"dz":28,
      "color":"#1E6B3A", "opacity":0.60},
     {"id":"mattress",     "name":"Z2 – Mattress",         "zone":"Zone 2 – Bed",
-     "x":5.1, "y":131.1,"z":28,"dx":60,"dy":40,"dz":10,
+     "x":5.1, "y":114.5,"z":28,"dx":60,"dy":40,"dz":10,
      "color":"#A9DFBF", "opacity":0.92},
     {"id":"water_tank",   "name":"Z2 – Water Tank 25 gal","zone":"Zone 2 – Bed",
-     "x":2,   "y":131,"z":1,  "dx":26, "dy":20, "dz":26,
+     "x":2,   "y":115,"z":1,  "dx":26, "dy":20, "dz":26,
      "color":"#3498DB", "opacity":0.30},
     {"id":"ecoflow",      "name":"Z2 – EcoFlow 10 kWh",  "zone":"Zone 2 – Bed",
-     "x":42.2,"y":131,"z":1,  "dx":26, "dy":20, "dz":26,
+     "x":42.2,"y":115,"z":1,  "dx":26, "dy":20, "dz":26,
      "color":"#F39C12", "opacity":0.30},
 
     # Overhead cabinets (new – user requested)
@@ -96,12 +96,12 @@ DEFAULT_ITEMS = [
      "x":48.2,"y":70, "z":54, "dx":22, "dy":44, "dz":18,
      "color":"#8B6248", "opacity":0.45},
 
-    # Wheel wells (fixed – not moveable) - updated to match dimension checklist
+    # Wheel wells (fixed – not moveable) - CORRECTED per user measurements
     {"id":"ww_port",      "name":"Wheel Well – Port",     "zone":"Structure",
-     "x":0,   "y":68, "z":0,  "dx":8,"dy":35, "dz":11,
+     "x":0,   "y":79, "z":0,  "dx":8,"dy":35, "dz":11,
      "color":"#7f8c8d", "opacity":0.75, "locked":True},
     {"id":"ww_stbd",      "name":"Wheel Well – Stbd",     "zone":"Structure",
-     "x":62.2,"y":68, "z":0,  "dx":8,"dy":35, "dz":11,
+     "x":62.2,"y":79, "z":0,  "dx":8,"dy":35, "dz":11,
      "color":"#7f8c8d", "opacity":0.75, "locked":True},
 
     # Roof fans
