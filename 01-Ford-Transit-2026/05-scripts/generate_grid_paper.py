@@ -144,14 +144,15 @@ def draw_grid_paper():
 
     # Add corner annotations and origin marker
     # Origin (0,0) at top-left: FRONT CAB, DRIVER SIDE
-    ax.text(start_x - 0.05, start_y + scaled_length + 0.05, "ORIGIN\n(0,0)\nFRONT CAB",
+    ax.text(start_x - 0.4, start_y + scaled_length + 0.05, "ORIGIN\n(0,0)\nFRONT CAB",
            fontsize=7, ha="right", va="bottom", color="#CC0000", fontweight="bold")
-    ax.text(start_x - 0.05, start_y - 0.05, f"REAR\nDOOR\n({int(CARGO_LENGTH)},0)",
+    ax.text(start_x - 0.4, start_y - 0.05, f"REAR\nDOOR\n({int(CARGO_LENGTH)},0)",
            fontsize=7, ha="right", va="top", color="#333333", fontweight="bold")
-    ax.text(start_x - 0.05, start_y + scaled_length / 2, "DRIVER\nSIDE",
-           fontsize=7, ha="right", va="center", color="#666666", rotation=90)
-    ax.text(start_x + scaled_width + 0.05, start_y + scaled_length / 2, "PASSENGER\nSIDE",
-           fontsize=7, ha="left", va="center", color="#666666", rotation=90)
+    # Side labels spaced away from grid numbers to avoid overlap
+    ax.text(start_x - 0.5, start_y + scaled_length / 2, "DRIVER SIDE",
+           fontsize=8, ha="center", va="center", color="#666666", rotation=90)
+    ax.text(start_x + scaled_width + 0.5, start_y + scaled_length / 2, "PASSENGER SIDE",
+           fontsize=8, ha="center", va="center", color="#666666", rotation=90)
 
     # Add footer with instructions
     footer_text = (
